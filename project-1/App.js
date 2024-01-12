@@ -11,7 +11,7 @@ const navigator = createStackNavigator(
 		FriendsList: FriendsList,
 	},
 	{
-		initialRouteName: "FriendsList",
+		initialRouteName: "Home",
 		defaultNavigationOptions: {
 			title: "App",
 		},
