@@ -32,6 +32,11 @@ const HomeScreen = (props) => {
 				onPress={() => pressHandler("Counter")}
 				title="Counter"
 			/>
+			<Button
+				style={styles.button}
+				onPress={() => pressHandler("ColorPalette")}
+				title="ColorPalette"
+			/>
 			{/* <TouchableOpacity onPress={navigateToExercise1}>
 				<Text>Go to Exercise1</Text>
 			</TouchableOpacity> */}

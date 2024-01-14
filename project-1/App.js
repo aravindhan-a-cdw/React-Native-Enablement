@@ -5,6 +5,7 @@ import JSXExercise1 from "./src/screens/JSXExercise1";
 import FriendsList from "./src/screens/FriendsList";
 import ImageList from "./src/screens/ImageList";
 import Count from "./src/screens/Count";
+import ColorPalette from "./src/screens/ColorPalette";
 
 const navigator = createStackNavigator(
 	{
@@ -13,6 +14,7 @@ const navigator = createStackNavigator(
 		FriendsList: FriendsList,
 		ImageList: ImageList,
 		Counter: Count,
+		ColorPalette: ColorPalette,
 	},
 	{
 		initialRouteName: "Home",
