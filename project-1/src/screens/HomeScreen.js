@@ -27,6 +27,11 @@ const HomeScreen = (props) => {
 				onPress={() => pressHandler("ImageList")}
 				title="ImageList"
 			/>
+			<Button
+				style={styles.button}
+				onPress={() => pressHandler("Counter")}
+				title="Counter"
+			/>
 			{/* <TouchableOpacity onPress={navigateToExercise1}>
 				<Text>Go to Exercise1</Text>
 			</TouchableOpacity> */}
