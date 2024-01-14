@@ -1,19 +1,38 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, FlatList, Button } from "react-native";
+import {
+	View,
+	Text,
+	StyleSheet,
+	FlatList,
+	Button,
+	TouchableOpacity,
+} from "react-native";
 
 export default function App() {
 	const [colors, setColors] = useState([]);
+	const [selectedColor, setSelectedColor] = useState(null);
+
+	let rgbSelectedColor = colors[selectedColor] || {
+		red: 0,
+		green: 0,
+		blue: 0,
+	};
+	let selectedColorString = `rgba(${rgbSelectedColor.red}, ${rgbSelectedColor.green}, ${rgbSelectedColor.blue}, 0.6)`;
+
 	const addColor = () => {
 		setColors((colors) => [
 			...colors,
 			{
-				red: Math.random() * 255,
-				green: Math.random() * 255,
-				blue: Math.random() * 255,
+				red: Math.floor(Math.random() * 255),
+				green: Math.floor(Math.random() * 255),
+				blue: Math.floor(Math.random() * 255),
 			},
 		]);
 	};
-	const clearColors = () => setColors([]);
+	const clearColors = () => {
+		setColors([]);
+		setSelectedColor(null);
+	};
 	return (
 		<View>
 			<Text style={styles.heading}>Color Palette</Text>
@@ -23,16 +42,84 @@ export default function App() {
 				style={styles.button}
 				horizontal
 				data={colors}
-				renderItem={({ item }) => <ColorView {...item} />}
+				renderItem={({ item, index }) => (
+					<TouchableOpacity onPress={() => setSelectedColor(index)}>
+						<ColorView {...item} />
+					</TouchableOpacity>
+				)}
 				showsVerticalScrollIndicator={false}
 				showsHorizontalScrollIndicator={false}
 			/>
+			{selectedColor !== null ? (
+				<View>
+					<Text>Selected Color: {selectedColorString}</Text>
+					<ColorView {...rgbSelectedColor} />
+					<Text>Red</Text>
+					<Button
+						title="+"
+						onPress={() =>
+							setColors((state) => [
+								...state,
+								(state[selectedColor].red += 1),
+							])
+						}
+					/>
+					<Button
+						title="-"
+						onPress={() =>
+							setColors((state) => [
+								...state,
+								(state[selectedColor].red -= 1),
+							])
+						}
+					/>
+					<Text>Green</Text>
+					<Button
+						title="+"
+						onPress={() =>
+							setColors((state) => [
+								...state,
+								(state[selectedColor].green += 1),
+							])
+						}
+					/>
+					<Button
+						title="-"
+						onPress={() =>
+							setColors((state) => [
+								...state,
+								(state[selectedColor].green -= 1),
+							])
+						}
+					/>
+					<Text>Blue</Text>
+					<Button
+						title="+"
+						onPress={() =>
+							setColors((state) => [
+								...state,
+								(state[selectedColor].blue += 1),
+							])
+						}
+					/>
+					<Button
+						title="-"
+						onPress={() =>
+							setColors((state) => [
+								...state,
+								(state[selectedColor].blue -= 1),
+							])
+						}
+					/>
+				</View>
+			) : (
+				""
+			)}
 		</View>
 	);
 }
 
 function ColorView(props) {
-	console.log(props);
 	return (
 		<View
 			style={{

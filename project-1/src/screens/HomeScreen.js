@@ -35,7 +35,7 @@ const HomeScreen = (props) => {
 			<Button
 				style={styles.button}
 				onPress={() => pressHandler("ColorPalette")}
-				title="ColorPalette"
+				title="Color Palette"
 			/>
 			{/* <TouchableOpacity onPress={navigateToExercise1}>
 				<Text>Go to Exercise1</Text>
