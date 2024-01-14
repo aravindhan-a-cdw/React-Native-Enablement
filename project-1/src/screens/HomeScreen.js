@@ -3,10 +3,8 @@ import { Text, StyleSheet, View, Button, TouchableOpacity } from "react-native";
 
 const HomeScreen = (props) => {
 	const { navigation } = props;
-	console.log(props);
-	const pressHandler = () => {
-		// console.log("Button pressed");
-		navigation.navigate("FriendsList");
+	const pressHandler = (section) => {
+		navigation.navigate(section);
 	};
 	const navigateToExercise1 = () => {
 		navigation.navigate("Exercise1");
@@ -16,13 +14,18 @@ const HomeScreen = (props) => {
 			<Text style={styles.text}>Hello World!</Text>
 			<Button
 				style={styles.button}
-				onPress={navigateToExercise1}
+				onPress={() => pressHandler("Exercise1")}
 				title="Exercise1"
 			/>
 			<Button
 				style={styles.button}
-				onPress={pressHandler}
+				onPress={() => pressHandler("FriendsList")}
 				title="FriendsList"
+			/>
+			<Button
+				style={styles.button}
+				onPress={() => pressHandler("ImageList")}
+				title="ImageList"
 			/>
 			{/* <TouchableOpacity onPress={navigateToExercise1}>
 				<Text>Go to Exercise1</Text>
