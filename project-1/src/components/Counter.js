@@ -1,11 +1,23 @@
 import { Button, View, Text, StyleSheet } from "react-native";
-import { useState } from "react";
+import { useReducer, useState } from "react";
+
+const countReducer = (state, action) => {
+	switch (action.type) {
+		case "increment":
+			return state + 1;
+		case "decrement":
+			return state - 1;
+		default:
+			return state;
+	}
+};
 
 export default function (props) {
-	const [counter, setCounter] = useState(0);
+	const [counter, dispatch] = useReducer(countReducer, 0);
+	// const [counter, setCounter] = useState(0);
 
-	const increment = () => setCounter((state) => state + 1);
-	const decrement = () => setCounter((state) => state - 1);
+	const increment = () => dispatch({ type: "increment" });
+	const decrement = () => dispatch({ type: "decrement" });
 
 	return (
 		<View>
