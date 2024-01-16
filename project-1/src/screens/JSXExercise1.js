@@ -16,7 +16,7 @@ export default function JSXExercise1() {
 				<TextInput
 					placeholder="Enter your name"
 					value={name}
-					onChange={(event) => setName(event.nativeEvent.text)}
+					onChangeText={(newValue) => setName(newValue)}
 					style={styles.textInput}
 				></TextInput>
 				<Button onPress={clearName} title="Clear"></Button>
