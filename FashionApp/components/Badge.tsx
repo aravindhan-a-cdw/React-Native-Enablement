@@ -1,10 +1,11 @@
-import {StyleSheet, Text} from 'react-native';
+import {StyleProp, StyleSheet, Text, TextStyle} from 'react-native';
 import React from 'react';
 
-const Badge: React.FC<{data: string}> = props => {
+const Badge: React.FC<{data: string; style: StyleProp<TextStyle>}> = props => {
+  const badgeStyles = StyleSheet.compose(styles.badgeText, props.style);
   return (
     // <View>
-    <Text style={styles.badgeText}>{props.data}</Text>
+    <Text style={badgeStyles}>{props.data}</Text>
     // </View>
   );
 };
