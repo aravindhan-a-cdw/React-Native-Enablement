@@ -1,12 +1,16 @@
 import BottomSheet from '@gorhom/bottom-sheet';
-import React, {useEffect, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {
   GestureHandlerRootView,
   TouchableOpacity,
 } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Badge from '../components/Badge';
+import HeaderWithBackAndCart from '../components/HeaderWithBackAndCart';
+import ProductDetailContent from '../components/ProductDetailContent';
+import {BLACK, LIGHT_GRAY, WHITE} from '../constants/color';
+import Cart from '../state/cart';
+import {PRODUCT_DETAIL} from '../constants/component';
 
 const ProductDetail: React.FC = (props: any) => {
   const {
@@ -14,80 +18,46 @@ const ProductDetail: React.FC = (props: any) => {
     navigation,
   } = props;
   const {product} = params;
-  console.log('Sizes', product.available_sizes);
+  const snapPoints = useMemo(() => ['40%', '70%'], []);
+  const {cartItems, setCartItems} = React.useContext(Cart);
+
+  const backNavigationHandler = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
+
+  const cartHandler = useCallback(() => {}, []);
+
+  const addToCartHandler = () => {
+    const newCartItems = [...cartItems];
+
+    const productIndex = cartItems.findIndex(item => item.id === product.id);
+    if (productIndex !== -1) {
+      newCartItems[productIndex].quantity += 1;
+    } else {
+      newCartItems.push({id: product.id, quantity: 1});
+    }
+    setCartItems(newCartItems);
+  };
+
   useEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, [navigation]);
-  const snapPoints = useMemo(() => ['40%', '70%'], []);
   return (
     <GestureHandlerRootView>
       <View>
-        <View style={styles.topBarOptions}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-            }}>
-            <Icon
-              style={styles.topBarIconStyle}
-              name="arrow-left"
-              size={30}
-              color={'#000'}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <View>
-              <Icon
-                style={styles.topBarIconStyle}
-                name="cart-outline"
-                size={30}
-                color={'#000'}
-              />
-              <Badge style={styles.cartIconBadgeStyle} data="1" />
-            </View>
-          </TouchableOpacity>
-        </View>
+        <HeaderWithBackAndCart
+          backNavigationHandler={backNavigationHandler}
+          cartHandler={cartHandler}
+          cartCount={cartItems.length}
+        />
         <Image style={styles.image} source={{uri: product.modelImg}} />
         <BottomSheet
           snapPoints={snapPoints}
           backgroundStyle={styles.bottomSheetContainer}
           handleIndicatorStyle={styles.handleIndicator}>
-          <View style={styles.productDetailContainer}>
-            <Text style={styles.productTitle}>{product.product_name}</Text>
-            <View style={styles.priceRatingContainer}>
-              <View style={styles.priceContainer}>
-                <Text style={styles.currentPrice}>
-                  {product.price_details.currency_code}{' '}
-                  {product.price_details.current_price}
-                </Text>
-                <Text>
-                  <Text style={styles.actualPrice}>
-                    {product.price_details.currency_code}{' '}
-                    {product.price_details.actual_price}
-                  </Text>
-                  <Text style={styles.discountPercent}>
-                    {' '}
-                    {product.price_details.discount} OFF
-                  </Text>
-                </Text>
-              </View>
-              <View style={styles.ratingContainer}>
-                <Icon color={'#000'} name="star" size={24} />
-                <Text style={styles.ratingText}>
-                  {product.rating_details.rating}/{product.rating_details.scale}
-                </Text>
-              </View>
-            </View>
-            <View style={styles.sizeContainer}>
-              <Text style={styles.sizeTitle}>Size Available:</Text>
-              <View style={styles.sizes}>
-                {product.available_sizes.map((size: string) => (
-                  <Text style={styles.sizeText}>{size}</Text>
-                ))}
-              </View>
-            </View>
-          </View>
+          <ProductDetailContent data={product} />
         </BottomSheet>
         <View style={styles.bottomOptionsContainer}>
           <TouchableOpacity>
@@ -97,8 +67,12 @@ const ProductDetail: React.FC = (props: any) => {
             <Icon style={styles.iconStyle} name="hanger" size={30} />
           </TouchableOpacity>
           <View style={styles.cartButtonContainer}>
-            <TouchableOpacity style={styles.addToCartButton}>
-              <Text style={styles.addToCartText}>Add to Cart</Text>
+            <TouchableOpacity
+              style={styles.addToCartButton}
+              onPress={addToCartHandler}>
+              <Text style={styles.addToCartText}>
+                {PRODUCT_DETAIL.ADD_TO_CART}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -108,28 +82,6 @@ const ProductDetail: React.FC = (props: any) => {
 };
 
 const styles = StyleSheet.create({
-  topBarOptions: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    top: 0,
-    zIndex: 1,
-    width: '100%',
-    paddingBottom: 20,
-  },
-  cartIconBadgeStyle: {
-    top: 12,
-    right: 12,
-  },
-  topBarIconStyle: {
-    color: '#000',
-    backgroundColor: '#fff',
-    borderRadius: 100,
-    padding: 15,
-  },
   image: {
     width: '100%',
     height: '100%',
@@ -138,87 +90,13 @@ const styles = StyleSheet.create({
     borderRadius: 0,
   },
   handleIndicator: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: LIGHT_GRAY,
     width: '20%',
   },
-  productDetailContainer: {
-    paddingVertical: 10,
-  },
-  productTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#000',
-    fontFamily: 'Poppins',
-    marginBottom: 15,
-    paddingHorizontal: 20,
-  },
-  priceRatingContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingBottom: 20,
-  },
-  ratingContainer: {
-    alignItems: 'flex-end',
-    gap: 10,
-  },
-  ratingText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#999',
-    fontFamily: 'Poppins',
-  },
-  priceContainer: {
-    alignItems: 'flex-start',
-    gap: 10,
-  },
-  currentPrice: {
-    fontSize: 20,
-    fontWeight: '700',
-    fontFamily: 'Poppins',
-    color: '#E2801C',
-  },
-  actualPrice: {
-    textDecorationLine: 'line-through',
-    fontSize: 16,
-  },
-  discountPercent: {
-    fontSize: 16,
-    color: '#000',
-    fontWeight: '400',
-  },
-  sizeContainer: {
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    gap: 30,
-    backgroundColor: '#F7F7F7',
-  },
-  sizes: {
-    flexDirection: 'row',
-    gap: 10,
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
-    flex: 1,
-  },
-  sizeTitle: {
-    fontSize: 17,
-    color: '#949494',
-    fontWeight: '500',
-    fontFamily: 'Poppins',
-    // flex: 1,
-  },
-  sizeText: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#000',
-    fontFamily: 'Poppins',
-    // flex: 1,
-  },
+
   bottomOptionsContainer: {
     position: 'absolute',
     bottom: 0,
-    // transform: [{translateY: -10}],
     width: '100%',
     height: '13%',
     zIndex: 1,
@@ -227,10 +105,10 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
     flexDirection: 'row',
     gap: 20,
-    borderColor: '#f0f0f0',
+    borderColor: LIGHT_GRAY,
     borderWidth: 1,
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: BLACK,
     shadowOffset: {
       width: 0,
       height: 5,
@@ -243,8 +121,8 @@ const styles = StyleSheet.create({
     flexBasis: '15%',
   },
   iconStyle: {
-    color: '#000',
-    backgroundColor: '#EEEEEE',
+    color: BLACK,
+    backgroundColor: LIGHT_GRAY,
     borderRadius: 100,
     padding: 15,
   },
@@ -252,13 +130,13 @@ const styles = StyleSheet.create({
     flex: 3,
   },
   addToCartButton: {
-    backgroundColor: '#000',
+    backgroundColor: BLACK,
     borderRadius: 5,
     paddingVertical: 16,
     paddingHorizontal: 20,
   },
   addToCartText: {
-    color: '#fff',
+    color: WHITE,
     fontSize: 16,
     fontWeight: '500',
     fontFamily: 'Poppins',

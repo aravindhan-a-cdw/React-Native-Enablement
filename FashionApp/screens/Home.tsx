@@ -1,39 +1,37 @@
-import {Text, View, StyleSheet} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import React from 'react';
-import Header from '../components/Header';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {NavigationContainer} from '@react-navigation/native';
 import ProductsSection from '../components/ProductsSection';
+import {BLACK, DARK_GRAY} from '../constants/color';
+// import {
+//   NavigationContainer,
+//   createNavigationContainerRef,
+// } from '@react-navigation/native';
 
-// const TextComp = (props: any) => {
-//   console.log(props.route.name);
-//   // console.log(props.navigation)
-//   return (
-//     <View>
-//       <Text>{props.name || 'Hello'}</Text>
-//     </View>
-//   );
-// };
+// const homeTabNavRef = createNavigationContainerRef();
 
-const NavBarTab = (props: any) => {
+const NavBarTab = (props: {children: React.ReactNode; focused: boolean}) => {
+  // const route = homeTabNavRef.current?.getCurrentRoute();
   return (
-    <Text
-      style={{
-        color: props.focused ? '#000' : '#666',
-        fontWeight: props.focused ? '500' : '400',
-        fontSize: 18,
-      }}>
-      {props.route.name}
+    <Text style={props.focused ? styles.focusedTab : styles.unfocusedTab}>
+      {props.children}
     </Text>
   );
 };
+
+export type HomeTabNavigationParamsList = {
+  [x: string]: {name: string};
+};
+
 const Home: React.FC = () => {
   const Tab = createMaterialTopTabNavigator();
   const tabSections = ['Man', 'Woman', 'Kids'];
   return (
-    // <View>
+    // <NavigationContainer
+    // ref={homeTabNavRef}
+    // independent>
     <Tab.Navigator
-      initialRouteName="Man"
+      initialRouteName={'Man'}
       // screenOptions={{
       //   tabBarLabelStyle: {
       //     fontSize: 18,
@@ -76,24 +74,36 @@ const Home: React.FC = () => {
       //     height: 3,
       //   },
       // }}
-      screenOptions={({route}) => ({
-        tabBarLabel: props => {
-          return <NavBarTab route={route} {...props} />;
-        },
+      screenOptions={{
+        tabBarLabel: NavBarTab,
         tabBarAllowFontScaling: true,
-        tabBarIndicatorStyle: {
-          backgroundColor: '#000',
-          height: 4,
-        },
-      })}>
+        tabBarIndicatorStyle: styles.tabBarIndicator,
+      }}>
       {tabSections.map((section, index) => {
         return (
           <Tab.Screen key={index} name={section} component={ProductsSection} />
         );
       })}
     </Tab.Navigator>
-    // </View>
+    // </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  focusedTab: {
+    color: BLACK,
+    fontWeight: '500',
+    fontSize: 18,
+  },
+  unfocusedTab: {
+    color: DARK_GRAY,
+    fontWeight: '400',
+    fontSize: 18,
+  },
+  tabBarIndicator: {
+    backgroundColor: BLACK,
+    height: 4,
+  },
+});
 
 export default Home;
