@@ -1,14 +1,10 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Product} from '../types/Product';
-import {
-  BLACK,
-  CURRENT_PRICE,
-  DARK_GRAY,
-  SIZE_SELECTOR_BACKGROUND,
-} from '../constants/color';
+import {BLACK, CURRENT_PRICE} from '../constants/color';
 import {PRODUCT_DETAIL_CONTENT} from '../constants/component';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import ProductOptions from './ProductOptions';
 
 type Props = {
   data: Product;
@@ -43,18 +39,10 @@ export default function ProductDetailContent(props: Props) {
           </Text>
         </View>
       </View>
-      <View style={styles.sizeContainer}>
-        <Text style={styles.sizeTitle}>
-          {PRODUCT_DETAIL_CONTENT.AVAILABLE_SIZES}
-        </Text>
-        <View style={styles.sizes}>
-          {product.available_sizes.map((size: string) => (
-            <Text key={size} style={styles.sizeText}>
-              {size}
-            </Text>
-          ))}
-        </View>
-      </View>
+      <ProductOptions
+        title={PRODUCT_DETAIL_CONTENT.AVAILABLE_SIZES}
+        options={product.available_sizes}
+      />
     </View>
   );
 }
@@ -75,7 +63,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingBottom: 20,
   },
   ratingContainer: {
     alignItems: 'flex-end',
@@ -105,32 +92,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: BLACK,
     fontWeight: '400',
-  },
-  sizeContainer: {
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    gap: 30,
-    backgroundColor: SIZE_SELECTOR_BACKGROUND,
-  },
-  sizes: {
-    flexDirection: 'row',
-    gap: 10,
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
-    flex: 1,
-  },
-  sizeTitle: {
-    fontSize: 17,
-    color: DARK_GRAY,
-    opacity: 0.6,
-    fontWeight: '600',
-    fontFamily: 'Poppins',
-  },
-  sizeText: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: BLACK,
-    fontFamily: 'Poppins',
   },
 });

@@ -15,6 +15,7 @@ import {BLACK, DARK_GRAY, LIGHT_GRAY, WHITE} from '../constants/color';
 import {PRODUCT_SECTION} from '../constants/component';
 import {OfferProduct, Product} from '../types/Product';
 import {ParamListBase, RouteProp} from '@react-navigation/native';
+import {padding} from '../styles/common';
 
 type OfferProductViewProps = {
   product: OfferProduct;
@@ -106,29 +107,28 @@ const ProductsSection: React.FC<ProductsSectionProps> = props => {
   );
   return (
     <ScrollView showsHorizontalScrollIndicator={false}>
-      <View style={styles.offerProductsContainer}>
-        <FlatList
-          data={offerProducts}
-          renderItem={({item}) => <OfferProductView product={item} />}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        />
-      </View>
+      <FlatList
+        data={offerProducts}
+        renderItem={({item}) => <OfferProductView product={item} />}
+        contentContainerStyle={styles.offerProductsListContent}
+        ItemSeparatorComponent={Separator}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+      />
       <View style={styles.popularProductsContainer}>
         <Text style={styles.popularProductsTitle}>
           {PRODUCT_SECTION.MOST_POPULAR_PRODUCT}
         </Text>
-        <View>
-          <FlatList
-            data={popularProducts}
-            renderItem={({item}) => (
-              <PopularProduct product={item} selectHandler={selectHandler} />
-            )}
-            horizontal={true}
-            ItemSeparatorComponent={Separator}
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
+        <FlatList
+          data={popularProducts}
+          renderItem={({item}) => (
+            <PopularProduct product={item} selectHandler={selectHandler} />
+          )}
+          ItemSeparatorComponent={Separator}
+          contentContainerStyle={styles.popularProductsListContent}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        />
       </View>
     </ScrollView>
   );
@@ -142,30 +142,24 @@ const styles = StyleSheet.create({
   productImageContainer: {
     borderRadius: 10,
   },
-  offerProductsContainer: {
-    paddingVertical: 30,
-    paddingStart: 20,
-    gap: 100,
-    display: 'flex',
-    flexDirection: 'row',
+  offerProductsListContent: {
+    ...padding(30, 30),
     backgroundColor: LIGHT_GRAY,
   },
   offerProductContainer: {
-    width: 320,
+    width: 300,
     height: 400,
-    marginRight: 20,
     shadowColor: DARK_GRAY,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
     ...Platform.select({
-      ios: {
-        shadowOffset: {
-          width: 0,
-          height: 5,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 10,
-      },
       android: {
-        elevation: 8,
+        borderColor: 'transparent', // fix for shadow in android
+        elevation: 5,
       },
     }),
   },
@@ -196,7 +190,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   discountCode: {
-    // textDecorationLine: 'underline',
     fontSize: 16,
     borderBottomColor: WHITE,
     borderBottomWidth: 1,
@@ -209,15 +202,17 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   popularProductsContainer: {
-    paddingHorizontal: 20,
     paddingVertical: 30,
+  },
+  popularProductsListContent: {
+    ...padding(30, 20),
   },
   popularProductsTitle: {
     fontSize: 20,
     fontWeight: '700',
     color: BLACK,
     fontFamily: 'Poppins',
-    marginBottom: 25,
+    marginStart: 30,
   },
   popularProductImage: {
     width: 150,

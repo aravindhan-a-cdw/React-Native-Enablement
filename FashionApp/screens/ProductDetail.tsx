@@ -1,31 +1,26 @@
 import BottomSheet from '@gorhom/bottom-sheet';
-import React, {useCallback, useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {
   GestureHandlerRootView,
   TouchableOpacity,
 } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import HeaderWithBackAndCart from '../components/HeaderWithBackAndCart';
 import ProductDetailContent from '../components/ProductDetailContent';
 import {BLACK, LIGHT_GRAY, WHITE} from '../constants/color';
 import Cart from '../state/cart';
 import {PRODUCT_DETAIL} from '../constants/component';
+import {padding} from '../styles/common';
 
 const ProductDetail: React.FC = (props: any) => {
   const {
     route: {params},
     navigation,
   } = props;
+
   const {product} = params;
   const snapPoints = useMemo(() => ['40%', '70%'], []);
   const {cartItems, setCartItems} = React.useContext(Cart);
-
-  const backNavigationHandler = useCallback(() => {
-    navigation.goBack();
-  }, [navigation]);
-
-  const cartHandler = useCallback(() => {}, []);
 
   const addToCartHandler = () => {
     const newCartItems = [...cartItems];
@@ -40,18 +35,11 @@ const ProductDetail: React.FC = (props: any) => {
   };
 
   useEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
+    navigation.setParams({type: 'secondary'});
   }, [navigation]);
   return (
     <GestureHandlerRootView>
       <View>
-        <HeaderWithBackAndCart
-          backNavigationHandler={backNavigationHandler}
-          cartHandler={cartHandler}
-          cartCount={cartItems.length}
-        />
         <Image style={styles.image} source={{uri: product.modelImg}} />
         <BottomSheet
           snapPoints={snapPoints}
@@ -61,7 +49,7 @@ const ProductDetail: React.FC = (props: any) => {
         </BottomSheet>
         <View style={styles.bottomOptionsContainer}>
           <TouchableOpacity>
-            <Icon style={styles.iconStyle} name="heart" size={28} />
+            <Icon style={styles.iconStyle} name="heart" size={30} />
           </TouchableOpacity>
           <TouchableOpacity>
             <Icon style={styles.iconStyle} name="hanger" size={30} />
@@ -100,22 +88,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '13%',
     zIndex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    ...padding(20, 20),
     paddingBottom: 30,
     flexDirection: 'row',
     gap: 20,
     borderColor: LIGHT_GRAY,
     borderWidth: 1,
     alignItems: 'center',
-    shadowColor: BLACK,
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowRadius: 8,
-    shadowOpacity: 0.6,
-    elevation: 1,
   },
   iconButtonStyle: {
     flexBasis: '15%',
@@ -123,7 +102,10 @@ const styles = StyleSheet.create({
   iconStyle: {
     color: BLACK,
     backgroundColor: LIGHT_GRAY,
-    borderRadius: 100,
+    borderRadius: 30,
+    height: 60,
+    width: 60,
+    overflow: 'hidden',
     padding: 15,
   },
   cartButtonContainer: {
