@@ -10,8 +10,8 @@ const BottomTabNavigation = () => {
   return (
     <BottomNav.Navigator
       screenOptions={{headerShown: false}}
-      initialRouteName="Settings">
-      <BottomNav.Screen name="Main" component={HomePage} />
+      initialRouteName="Home">
+      <BottomNav.Screen name="Home" component={HomePage} />
       <BottomNav.Screen name="Settings" component={BottomTab} />
     </BottomNav.Navigator>
   );
