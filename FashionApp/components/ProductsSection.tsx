@@ -32,7 +32,9 @@ const OfferProductView = (props: OfferProductViewProps) => {
           uri: product.modelImg,
         }}>
         <View style={styles.offerProductTextContainer}>
-          <Text style={styles.discountText}>{product.discountText}</Text>
+          <View style={styles.discountTitleContainer}>
+            <Text style={styles.discountText}>{product.discountText}</Text>
+          </View>
           <View style={styles.discountCodeContainer}>
             <Text style={styles.discount}>{PRODUCT_SECTION.USE_CODE}</Text>
             <Text style={styles.discountCode}>{product.discountCode}</Text>
@@ -168,14 +170,19 @@ const styles = StyleSheet.create({
     bottom: 0,
     padding: 20,
   },
+  discountTitleContainer: {
+    paddingBottom: 20,
+    borderBottomWidth: 1,
+    borderColor: '#999',
+  },
   discountText: {
     fontSize: 28,
     fontWeight: '900',
     color: WHITE,
     fontFamily: 'Poppins',
-    paddingBottom: 20,
-    borderBottomWidth: 1,
-    borderColor: '#999',
+    // paddingBottom: 20,
+    // borderBottomWidth: 1,
+    // borderColor: '#999',
   },
   discountCodeContainer: {
     display: 'flex',

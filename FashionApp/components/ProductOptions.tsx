@@ -1,7 +1,8 @@
 import React from 'react';
-import {StyleSheet, Text, View, FlatList} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {BLACK, DARK_GRAY, SIZE_SELECTOR_BACKGROUND} from '../constants/color';
 import {padding} from '../styles/common';
+import {FlatList, ScrollView} from 'react-native-gesture-handler';
 
 type Props = {
   title: string;
@@ -20,14 +21,16 @@ const ProductOptions: React.FC<Props> = ({options, title}) => {
   return (
     <View style={styles.optionContainer}>
       <Text style={styles.optionsTitle}>{title}</Text>
-      <FlatList
-        contentContainerStyle={styles.optionsContentContainer}
-        data={options}
-        horizontal={true}
-        renderItem={({item}) => <Item title={item} />}
-        keyExtractor={item => item}
-        ItemSeparatorComponent={ItemSeparator}
-      />
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.optionsContentContainer}
+          data={options}
+          renderItem={({item}) => <Item title={item} />}
+          keyExtractor={item => item}
+          ItemSeparatorComponent={ItemSeparator}
+        />
+      </ScrollView>
     </View>
   );
 };

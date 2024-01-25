@@ -84,7 +84,7 @@ export default function CurvedBottomNavigation() {
         <Animated.View style={styles.btnCircleUp}>
           <TouchableOpacity
             style={styles.searchButton}
-            onPress={() => Alert.alert('Click Action')}>
+            onPress={() => Alert.alert('Search feature is in development!')}>
             <IonIcons name={'search-sharp'} color={WHITE} size={28} />
           </TouchableOpacity>
         </Animated.View>

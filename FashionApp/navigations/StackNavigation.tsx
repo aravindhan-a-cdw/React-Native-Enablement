@@ -5,7 +5,7 @@ import Home from '../screens/Home';
 import ProductDetail from '../screens/ProductDetail';
 
 type RouterParams = {
-  home: {type: string};
+  stack_home: {type: string};
   product: {type: string};
 };
 
@@ -19,7 +19,7 @@ const StackNavigation = () => {
   const headerComponent = (props: StackHeaderProps) => <Header {...props} />;
   const routes: Route[] = [
     {
-      name: 'home',
+      name: 'stack_home',
       component: Home,
     },
     {
@@ -28,7 +28,9 @@ const StackNavigation = () => {
     },
   ];
   return (
-    <Stack.Navigator screenOptions={{header: headerComponent}}>
+    <Stack.Navigator
+      screenOptions={{header: headerComponent}}
+      initialRouteName={routes[0].name}>
       {routes.map((route, index) => (
         <Stack.Screen
           key={index}

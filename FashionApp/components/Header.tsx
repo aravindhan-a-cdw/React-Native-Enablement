@@ -11,7 +11,6 @@ const Header: React.FC<any> = props => {
   route.params;
 
   const {cartItems} = useContext(Cart);
-  console.log(props);
   const backNavigationHandler = useCallback(() => {
     navigation.goBack();
   }, [navigation]);

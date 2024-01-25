@@ -8,7 +8,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 import Cart, {CartItem} from './state/cart';
 import {WHITE} from './constants/color';
-import StackNavigation from './navigations/StackNavigation';
+// import StackNavigation from './navigations/StackNavigation';
+import DrawerNavigation from './navigations/DrawerNavigation';
 
 const App: React.FC = () => {
   const [cartItems, setCartItems] = React.useState<CartItem[]>([]);
@@ -19,7 +20,7 @@ const App: React.FC = () => {
       <NavigationContainer>
         <Cart.Provider value={{cartItems: cartItems, setCartItems}}>
           <StatusBar backgroundColor={WHITE} barStyle={'dark-content'} />
-          <StackNavigation />
+          <DrawerNavigation />
         </Cart.Provider>
       </NavigationContainer>
     </SafeAreaView>
