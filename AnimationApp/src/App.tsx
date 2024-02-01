@@ -6,12 +6,11 @@
  */
 
 import React from 'react';
-import {SafeAreaView, StatusBar, Text, useColorScheme} from 'react-native';
+import {StatusBar, useColorScheme} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import StackNavigator from './navigations/StackNavigator';
 import {NavigationContainer} from '@react-navigation/native';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
