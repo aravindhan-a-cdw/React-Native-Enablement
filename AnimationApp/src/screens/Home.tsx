@@ -10,9 +10,7 @@ import type {PropsWithChildren} from 'react';
 import {
   Animated,
   Button,
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleProp,
   StyleSheet,
   Text,
@@ -25,8 +23,6 @@ import {
   Colors,
   DebugInstructions,
   Header,
-  LearnMoreLinks,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
 type SectionProps = PropsWithChildren<{
@@ -64,16 +60,29 @@ function Section({
   );
 }
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
+function Home(props: any): React.JSX.Element {
+  console.log(props);
+  const {
+    navigation: {navigate},
+  } = props;
   const OpacityValue1 = useState(new Animated.Value(0))[0];
   const OpacityValue2 = useState(new Animated.Value(0))[0];
   const OpacityValue3 = useState(new Animated.Value(0))[0];
-  const heightValue = useState(new Animated.Value(0))[0];
+  const OpacityValue4 = useState(new Animated.Value(0))[0];
   const [section, setSection] = useState(0);
 
-  const sections = [animateSection1, animateSection2, animateSection3];
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    flex: 1,
+  };
+
+  const sections = [
+    animateSection1,
+    animateSection2,
+    animateSection3,
+    animateSection4,
+  ];
 
   function animateSection1() {
     console.log('animateSection1 executed');
@@ -82,11 +91,11 @@ function App(): React.JSX.Element {
       duration: 1000,
       useNativeDriver: true,
     }).start();
-    Animated.timing(heightValue, {
-      toValue: 100,
-      duration: 1000,
-      useNativeDriver: true,
-    }).start();
+    // Animated.timing(heightValue, {
+    //   toValue: 100,
+    //   duration: 1000,
+    //   useNativeDriver: true,
+    // }).start();
     setSection(1);
   }
 
@@ -110,9 +119,15 @@ function App(): React.JSX.Element {
     setSection(3);
   }
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  function animateSection4() {
+    console.log('animateSection4 executed');
+    Animated.timing(OpacityValue4, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+    setSection(4);
+  }
 
   const AnimatedStyles = StyleSheet.create({
     animatedSection1: {
@@ -124,46 +139,50 @@ function App(): React.JSX.Element {
     animatedSection3: {
       opacity: OpacityValue3,
     },
+    animatedSection4: {
+      opacity: OpacityValue4,
+    },
   });
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <Button onPress={sections[section]} title="Next" />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section
-            extraStyles={AnimatedStyles.animatedSection1}
-            title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section
-            extraStyles={AnimatedStyles.animatedSection2}
-            title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section extraStyles={AnimatedStyles.animatedSection3} title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section
-            extraStyles={AnimatedStyles.animatedSection3}
-            title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
+      style={backgroundStyle}>
+      <Header />
+      <Button onPress={sections[section]} title="Reveal" />
+      <View
+        style={{
+          backgroundColor: isDarkMode ? Colors.black : Colors.white,
+        }}>
+        <Section
+          extraStyles={AnimatedStyles.animatedSection1}
+          title="Animations">
+          You can click on next to see the animation!
+        </Section>
+        <Section
+          extraStyles={AnimatedStyles.animatedSection2}
+          title="Local Storage">
+          <View>
+            <Text>Checkout the usage of local storage in the app!</Text>
+            <Button onPress={() => navigate('LocalStorage')} title="Explore" />
+          </View>
+        </Section>
+        <Section extraStyles={AnimatedStyles.animatedSection3} title="Debug">
+          <DebugInstructions />
+        </Section>
+        <Section
+          extraStyles={AnimatedStyles.animatedSection3}
+          title="Learn More">
+          Read the docs to discover what to do next:
+        </Section>
+        <Section
+          extraStyles={AnimatedStyles.animatedSection4}
+          title="Learn More">
+          Read the docs to discover what to do next:
+        </Section>
+        {/* <LearnMoreLinks /> */}
+      </View>
+    </ScrollView>
   );
 }
 
@@ -186,4 +205,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Home;
