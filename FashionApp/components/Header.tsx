@@ -78,7 +78,7 @@ const secondaryStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 50,
     backgroundColor: 'transparent',
     position: 'absolute',
     top: 0,

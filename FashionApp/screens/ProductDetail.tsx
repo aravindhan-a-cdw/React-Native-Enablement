@@ -1,6 +1,6 @@
 import BottomSheet from '@gorhom/bottom-sheet';
 import React, {useEffect, useMemo} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StatusBar, StyleSheet, Text, View} from 'react-native';
 import {
   GestureHandlerRootView,
   TouchableOpacity,
@@ -39,7 +39,14 @@ const ProductDetail: React.FC = (props: any) => {
   }, [navigation]);
   return (
     <GestureHandlerRootView>
-      <View>
+      <StatusBar
+        animated
+        showHideTransition="slide"
+        backgroundColor="transparent"
+        barStyle={'dark-content'}
+        translucent
+      />
+      <View style={styles.productContainer}>
         <Image style={styles.image} source={{uri: product.modelImg}} />
         <BottomSheet
           snapPoints={snapPoints}
@@ -72,6 +79,9 @@ const ProductDetail: React.FC = (props: any) => {
 const styles = StyleSheet.create({
   image: {
     width: '100%',
+    height: '60%',
+  },
+  productContainer: {
     height: '100%',
   },
   bottomSheetContainer: {

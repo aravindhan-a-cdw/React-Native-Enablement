@@ -14,7 +14,9 @@ export default function ProductDetailContent(props: Props) {
   const {data: product} = props;
   return (
     <View style={styles.productDetailContainer}>
-      <Text style={styles.productTitle}>{product.product_name}</Text>
+      <Text numberOfLines={1} style={styles.productTitle}>
+        {product.product_name}
+      </Text>
       <View style={styles.priceRatingContainer}>
         <View style={styles.priceContainer}>
           <Text style={styles.currentPrice}>
@@ -63,6 +65,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
+    paddingBottom: 30,
   },
   ratingContainer: {
     alignItems: 'flex-end',
