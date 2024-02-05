@@ -15,7 +15,9 @@ const Header: React.FC<any> = props => {
     navigation.goBack();
   }, [navigation]);
 
-  const cartHandler = useCallback(() => {}, []);
+  const cartHandler = useCallback(() => {
+    navigation.toggleDrawer();
+  }, [navigation]);
 
   switch (props.route?.params.type) {
     case 'primary':
