@@ -167,8 +167,11 @@ function Home(props: any): React.JSX.Element {
             <Button onPress={() => navigate('LocalStorage')} title="Explore" />
           </View>
         </Section>
-        <Section extraStyles={AnimatedStyles.animatedSection3} title="Debug">
-          <DebugInstructions />
+        <Section extraStyles={AnimatedStyles.animatedSection3} title="Camera">
+          <View>
+            <Text>Checkout the usage of camera in the app!</Text>
+            <Button onPress={() => navigate('Camera')} title="Take a Shot" />
+          </View>
         </Section>
         <Section
           extraStyles={AnimatedStyles.animatedSection3}
