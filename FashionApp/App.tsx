@@ -5,9 +5,8 @@
 
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
 import Cart, {CartItem} from './state/cart';
-import {WHITE} from './constants/color';
 // import StackNavigation from './navigations/StackNavigation';
 import DrawerNavigation from './navigations/DrawerNavigation';
 
@@ -19,7 +18,6 @@ const App: React.FC = () => {
     <SafeAreaView style={styles.appContainer}>
       <NavigationContainer>
         <Cart.Provider value={{cartItems: cartItems, setCartItems}}>
-          <StatusBar backgroundColor={WHITE} barStyle={'dark-content'} />
           <DrawerNavigation />
         </Cart.Provider>
       </NavigationContainer>

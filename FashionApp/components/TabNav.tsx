@@ -1,9 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
 import React from 'react';
-import {Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import ProductDetail from '../screens/ProductDetail';
 import Header from './Header';
 
 const TabNav = () => {
@@ -12,10 +10,6 @@ const TabNav = () => {
       name: 'home',
       component: Home,
     },
-    // {
-    //   name: 'product',
-    //   component: ProductDetail,
-    // },
   ];
   const BottomTab = createBottomTabNavigator();
   return (
@@ -32,11 +26,6 @@ const TabNav = () => {
             initialParams={{type: 'primary'}}
           />
         ))}
-        {/* <BottomTab.Screen name="Home" component={() => <Text>Home</Text>} />
-        <BottomTab.Screen
-          name="Settings"
-          component={() => <Text>Settings</Text>}
-        /> */}
       </BottomTab.Navigator>
     </NavigationContainer>
   );

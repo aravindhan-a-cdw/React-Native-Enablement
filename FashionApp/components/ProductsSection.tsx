@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
   },
   popularProductsListContent: {
-    ...padding(30, 20),
+    ...padding(30, 30),
   },
   popularProductsTitle: {
     fontSize: 20,

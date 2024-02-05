@@ -39,13 +39,7 @@ const ProductDetail: React.FC = (props: any) => {
   }, [navigation]);
   return (
     <GestureHandlerRootView>
-      <StatusBar
-        animated
-        showHideTransition="slide"
-        backgroundColor="transparent"
-        barStyle={'dark-content'}
-        translucent
-      />
+      <StatusBar translucent backgroundColor={'transparent'} />
       <View style={styles.productContainer}>
         <Image style={styles.image} source={{uri: product.modelImg}} />
         <BottomSheet
