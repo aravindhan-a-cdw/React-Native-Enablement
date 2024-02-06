@@ -19,11 +19,7 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -161,9 +157,11 @@ function Home(props: any): React.JSX.Element {
         </Section>
         <Section
           extraStyles={AnimatedStyles.animatedSection2}
-          title="Local Storage">
+          title="Local Storage with Biometrics">
           <View>
-            <Text>Checkout the usage of local storage in the app!</Text>
+            <Text>
+              Checkout the usage of local storage + Biometrics in the app!
+            </Text>
             <Button onPress={() => navigate('LocalStorage')} title="Explore" />
           </View>
         </Section>
@@ -173,15 +171,16 @@ function Home(props: any): React.JSX.Element {
             <Button onPress={() => navigate('Camera')} title="Take a Shot" />
           </View>
         </Section>
-        <Section
+        {/* <Section
           extraStyles={AnimatedStyles.animatedSection3}
           title="Learn More">
           Read the docs to discover what to do next:
-        </Section>
-        <Section
-          extraStyles={AnimatedStyles.animatedSection4}
-          title="Learn More">
-          Read the docs to discover what to do next:
+        </Section> */}
+        <Section extraStyles={AnimatedStyles.animatedSection4} title="Location">
+          <View>
+            <Text>Want to know your location? Click on the button below!</Text>
+            <Button onPress={() => navigate('Location')} title="Track Me!" />
+          </View>
         </Section>
         {/* <LearnMoreLinks /> */}
       </View>
