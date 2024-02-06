@@ -6,6 +6,7 @@ import Home from '../screens/Home'; // Replace with your actual screen component
 import Camera from '../screens/Camera';
 import LocationScreen from '../screens/Location';
 import LocalStorage from '../screens/LocalStorage';
+import Notification from '../screens/Notification';
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ const StackNavigator = () => {
       <Stack.Screen name="Camera" component={Camera} />
       <Stack.Screen name="Location" component={LocationScreen} />
       <Stack.Screen name="LocalStorage" component={LocalStorage} />
+      <Stack.Screen name="Notification" component={Notification} />
     </Stack.Navigator>
   );
 };

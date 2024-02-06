@@ -182,6 +182,17 @@ function Home(props: any): React.JSX.Element {
             <Button onPress={() => navigate('Location')} title="Track Me!" />
           </View>
         </Section>
+        <Section
+          extraStyles={AnimatedStyles.animatedSection4}
+          title="Notification">
+          <View>
+            <Text>Want to know your location? Click on the button below!</Text>
+            <Button
+              onPress={() => navigate('Notification')}
+              title="Notify me!"
+            />
+          </View>
+        </Section>
         {/* <LearnMoreLinks /> */}
       </View>
     </ScrollView>
