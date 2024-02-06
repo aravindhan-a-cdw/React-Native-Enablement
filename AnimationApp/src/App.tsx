@@ -5,8 +5,9 @@
  * @format
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StatusBar, useColorScheme} from 'react-native';
+import notifee, {EventType} from '@notifee/react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import StackNavigator from './navigations/StackNavigator';
@@ -17,6 +18,20 @@ function App(): React.JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  useEffect(() => {
+    const unsubscribe = notifee.onForegroundEvent(({type, detail}) => {
+      switch (type) {
+        case EventType.DISMISSED:
+          console.log('User dismissed notification', detail.notification);
+          break;
+        case EventType.PRESS:
+          console.log('User pressed notification', detail.notification);
+          break;
+      }
+    });
+    return unsubscribe;
+  }, []);
 
   return (
     <>
