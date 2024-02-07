@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Image, Dimensions} from 'react-native';
+import {Subscription} from 'rxjs';
 import {
   gyroscope,
   setUpdateIntervalForType,
@@ -16,50 +17,42 @@ const imageHeight = deviceHeight;
 
 setUpdateIntervalForType(SensorTypes.gyroscope, 30);
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
+export default function App() {
+  const [data, setData] = useState({x: 0, y: 0, z: 0});
+  const [subscription, setSubscription] = useState<Subscription>();
+  const image =
+    'https://coenterprises.com.au/wp-content/uploads/2018/02/male-placeholder-image.jpeg';
 
-    this.state = {
-      image: `https://coenterprises.com.au/wp-content/uploads/2018/02/male-placeholder-image.jpeg`,
-      y: 0,
-    };
-  }
-
-  componentDidMount() {
-    const subscription = gyroscope.subscribe(({y}) => {
-      console.log('y: ', y);
-      this.setState(state => ({
-        y: y + state.y,
-      }));
+  useEffect(() => {
+    const subscriptionFunc = gyroscope.subscribe(({x, y, z}) => {
+      console.log('x: ', x, 'y: ', y, 'z: ', z);
+      setData({x, y, z});
     });
 
-    this.setState({subscription});
-  }
+    setSubscription(subscriptionFunc);
 
-  componentWillUnmount() {
-    this.state.subscription.unsubscribe();
-  }
+    return () => {
+      subscription && subscription.unsubscribe();
+    };
+  }, []);
 
-  render() {
-    const positionOnScreenX = -imageWidth / 2;
-    // The y axis of the sensor data resembles what we need for the x axis
-    // in the image
-    const movementX = (-this.state.y / 1000) * imageWidth;
+  const positionOnScreenX = -imageWidth / 2;
+  // The y axis of the sensor data resembles what we need for the x axis
+  // in the image
+  const movementX = (-data.y / 1000) * imageWidth;
 
-    return (
-      <View style={styles.container}>
-        <Image
-          // translateX={positionOnScreenX + movementX}
-          style={[
-            styles.image,
-            {transform: [{translateX: positionOnScreenX + movementX}]},
-          ]}
-          source={{uri: this.state.image}}
-        />
-      </View>
-    );
-  }
+  return (
+    <View style={styles.container}>
+      <Image
+        // translateX={positionOnScreenX + movementX}
+        style={[
+          styles.image,
+          {transform: [{translateX: positionOnScreenX + movementX}]},
+        ]}
+        source={{uri: image}}
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
