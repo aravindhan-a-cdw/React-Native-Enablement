@@ -1,73 +1,90 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Image, Dimensions} from 'react-native';
-import {Subscription} from 'rxjs';
+import React, {useEffect} from 'react';
 import {
-  gyroscope,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+  useColorScheme,
+} from 'react-native';
+import {
+  accelerometer,
   setUpdateIntervalForType,
   SensorTypes,
 } from 'react-native-sensors';
+import {map, filter} from 'rxjs/operators';
 
-const window = Dimensions.get('window');
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-const deviceWidth = window.width;
-const deviceHeight = window.height;
+setUpdateIntervalForType(SensorTypes.accelerometer, 200); // defaults to 100ms
 
-const imageWidth = deviceWidth;
-const imageHeight = deviceHeight;
+function App(): React.JSX.Element {
+  const isDarkMode = useColorScheme() === 'dark';
+  const [values, setValues] = React.useState([0, 0, 0]);
 
-setUpdateIntervalForType(SensorTypes.gyroscope, 30);
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
 
-export default function App() {
-  const [data, setData] = useState({x: 0, y: 0, z: 0});
-  const [subscription, setSubscription] = useState<Subscription>();
-  const image =
-    'https://coenterprises.com.au/wp-content/uploads/2018/02/male-placeholder-image.jpeg';
+  const subscription = accelerometer
+    .pipe(
+      map(({x, y, z}) => Math.abs(x) + Math.abs(y) + Math.abs(z)),
+      filter(speed => speed > 10),
+    )
+    .subscribe(speed => console.log(`You moved your phone with ${speed}`));
 
   useEffect(() => {
-    const subscriptionFunc = gyroscope.subscribe(({x, y, z}) => {
-      console.log('x: ', x, 'y: ', y, 'z: ', z);
-      setData({x, y, z});
-    });
-
-    setSubscription(subscriptionFunc);
-
+    subscription.add(
+      accelerometer.subscribe(({x, y, z}) => {
+        console.log('x, y, z', x, y, z);
+        setValues([x * 100, y * 10, z * 100]);
+      }),
+    );
     return () => {
-      subscription && subscription.unsubscribe();
+      subscription.unsubscribe();
     };
-  }, []);
+  }, [subscription]);
 
-  const positionOnScreenX = -imageWidth / 2;
-  // The y axis of the sensor data resembles what we need for the x axis
-  // in the image
-  const movementX = (-data.y / 1000) * imageWidth;
+  // setTimeout(() => {
+  //   // If it's the last subscription to accelerometer it will stop polling in the native API
+  //   subscription.unsubscribe();
+  // }, 1000);
 
   return (
-    <View style={styles.container}>
-      <Image
-        // translateX={positionOnScreenX + movementX}
-        style={[
-          styles.image,
-          {transform: [{translateX: positionOnScreenX + movementX}]},
-        ]}
-        source={{uri: image}}
+    <SafeAreaView style={backgroundStyle}>
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={backgroundStyle.backgroundColor}
       />
-    </View>
+      <View style={styles.container}>
+        <Text style={styles.title}>Hello</Text>
+        <View
+          style={[
+            styles.dot,
+            {transform: [{translateX: values[0]}, {translateY: values[1]}]},
+          ]}></View>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    height: '100%',
   },
-  image: {
-    position: 'absolute',
-    top: 0,
-    left: 100,
-    width: '100%',
-    height: imageHeight,
-    // width: imageWidth,
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  dot: {
+    width: 40,
+    height: 40,
+    backgroundColor: 'red',
+    borderRadius: 20,
   },
 });
+
+export default App;
