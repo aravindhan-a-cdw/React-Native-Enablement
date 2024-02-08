@@ -5,13 +5,20 @@
  */
 
 import React from 'react';
-import {Text, View} from 'react-native';
 
-const App = () => {
+import 'react-native-gesture-handler'; // Helps to setup necessary handlers for gestures
+import {Provider} from 'react-redux';
+import stores from './stores';
+import {NavigationContainer} from '@react-navigation/native';
+import StackNavigator from './navigators/StackNavigator';
+
+const App: React.FC = () => {
   return (
-    <View>
-      <Text>Health Tracker App</Text>
-    </View>
+    <Provider store={stores}>
+      <NavigationContainer>
+        <StackNavigator />
+      </NavigationContainer>
+    </Provider>
   );
 };
 
