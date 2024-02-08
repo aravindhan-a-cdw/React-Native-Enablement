@@ -11,12 +11,14 @@ import {Provider} from 'react-redux';
 import stores from './stores';
 import {NavigationContainer} from '@react-navigation/native';
 import StackNavigator from './navigators/StackNavigator';
+import Loader from './components/Loader';
 
 const App: React.FC = () => {
   return (
     <Provider store={stores}>
       <NavigationContainer>
         <StackNavigator />
+        <Loader />
       </NavigationContainer>
     </Provider>
   );

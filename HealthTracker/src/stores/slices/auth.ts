@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import store from '../index';
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -18,6 +19,10 @@ export const authSlice = createSlice({
   },
 });
 
-export const {login, logout} = authSlice.actions;
+type RootState = ReturnType<typeof store.getState>;
 
+export const selectUser = (state: RootState) => state.auth.user;
+export const selectIsLoggingIn = (state: RootState) => state.auth.isLoggingIn;
+
+export const {login, logout} = authSlice.actions;
 export default authSlice.reducer;
