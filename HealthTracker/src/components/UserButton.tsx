@@ -52,7 +52,7 @@ const commonStyles = StyleSheet.create({
 
 const buttonTypeStyles = StyleSheet.create({
   primary: {
-    backgroundColor: colors.primaryButtonColor,
+    backgroundColor: colors.primaryColor,
     color: colors.white,
   },
 });

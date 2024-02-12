@@ -18,3 +18,16 @@ export const signIn = async (email: string, password: string) => {
     throw error;
   }
 };
+
+export const signOut = async () => {
+  try {
+    return auth().signOut();
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getCurrentUser = () => {
+  return auth().currentUser;
+};

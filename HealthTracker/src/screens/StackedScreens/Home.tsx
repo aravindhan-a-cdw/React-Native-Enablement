@@ -1,12 +1,9 @@
 import React from 'react';
-import {SafeAreaView, Text} from 'react-native';
+import BottomTabNavigator from '../../navigators/BottomTabNavigator';
 
 const Home = () => {
-  return (
-    <SafeAreaView>
-      <Text>Home</Text>
-    </SafeAreaView>
-  );
+  // This is the home screen of Stack Navigator which renders the Bottom Tab Navigator
+  return <BottomTabNavigator />;
 };
 
 export default Home;

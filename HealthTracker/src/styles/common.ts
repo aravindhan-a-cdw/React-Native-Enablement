@@ -11,6 +11,9 @@ export const containerStyles = StyleSheet.create({
   verticallyCenteredContainer: {
     justifyContent: 'center',
   },
+  rowContainer: {
+    flexDirection: 'row',
+  },
 });
 
 export const paddingStyles = StyleSheet.create({
@@ -102,8 +105,20 @@ export const colors = {
   black: '#000',
   white: '#fff',
   gray: '#333',
-  primaryButtonColor: '#83AC77',
+  lightGray: '#eee',
+  primaryColor: '#83AC77',
   disabledButtonColor: '#ccc',
+  bottomTapBackgroundColor: '#FAFAFA',
+  mainArticleBackground: '#EFF2FE',
+  progressIndicator: {
+    water: '#3974FF',
+    waterBackground: '#E3F0FE',
+    waterIconBackground: '#C7E1FF',
+    steps: '#FF3839',
+    stepsBackground: '#FEEAE9',
+    stepsIconBackground: '#FFD6D7',
+    weeklyProgressBackground: '#7986F7',
+  },
 };
 
 export const textStyles = StyleSheet.create({

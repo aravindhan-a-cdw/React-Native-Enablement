@@ -10,9 +10,10 @@ import {
   textStyles,
 } from '../../styles/common';
 import UserButton from '../../components/UserButton';
-import {signIn} from '../../services/auth';
+import {getCurrentUser, signIn} from '../../services/auth';
 import {useDispatch} from 'react-redux';
 import {startLoading, stopLoading} from '../../stores/slices/loader';
+import {firebase} from '@react-native-firebase/auth';
 
 type LoginProps = {
   navigation: StackNavigatorPropType;
@@ -26,9 +27,22 @@ const Login = (props: LoginProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Hide the header
-    navigation.setOptions({headerShown: false});
+    const user = getCurrentUser();
+    if (user) {
+      navigation.navigate('stack.home');
+      // User is signed in
+      // TODO: set state in redux
+    }
+
+    const unsubscribe = navigation.addListener('focus', () => {
+      setEmail('');
+      setPassword('');
+    });
+
+    return unsubscribe;
   }, [navigation]);
+
+  console.log('Current user', firebase.auth().currentUser);
 
   const handleLogin = () => {
     const login = async () => {
@@ -39,6 +53,7 @@ const Login = (props: LoginProps) => {
       .then(() => {
         dispatch(stopLoading());
         navigation.navigate('stack.home');
+        // TODO: set state in redux
       })
       .catch(err => {
         console.log(err.code);
