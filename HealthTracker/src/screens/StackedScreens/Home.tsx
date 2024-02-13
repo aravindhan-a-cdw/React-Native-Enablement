@@ -11,8 +11,8 @@ import {
 
 const Home = () => {
   // This is the home screen of Stack Navigator which renders the Bottom Tab Navigator
-  const isDrawerOpen = useSelector(selectIsDrawerOpen);
   const dispatch = useDispatch();
+  const isDrawerOpen = useSelector(selectIsDrawerOpen);
 
   const onDrawerOpen = () => {
     dispatch(openDrawer());
