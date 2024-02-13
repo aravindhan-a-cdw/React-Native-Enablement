@@ -4,8 +4,7 @@ import FAIcon from 'react-native-vector-icons/FontAwesome6';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import {colors, paddingStyles} from '../styles/common';
 
-const Header = (props: any) => {
-  console.log('props', props);
+const Header = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
