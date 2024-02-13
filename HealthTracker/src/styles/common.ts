@@ -107,6 +107,7 @@ export const colors = {
   gray: '#333',
   lightGray: '#eee',
   primaryColor: '#83AC77',
+  secondaryColor: '#dd3839',
   disabledButtonColor: '#ccc',
   bottomTapBackgroundColor: '#FAFAFA',
   mainArticleBackground: '#EFF2FE',

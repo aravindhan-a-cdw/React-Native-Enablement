@@ -55,6 +55,9 @@ const buttonTypeStyles = StyleSheet.create({
     backgroundColor: colors.primaryColor,
     color: colors.white,
   },
+  secondary: {
+    backgroundColor: colors.secondaryColor,
+  },
 });
 
 const buttonTextStyles = StyleSheet.create({
