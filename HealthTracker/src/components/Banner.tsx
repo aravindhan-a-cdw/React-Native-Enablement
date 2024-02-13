@@ -1,18 +1,41 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import ColoredContainer from './ColoredContainer';
 import {colors, paddingStyles} from '../styles/common';
-import CheckNow from './CheckNow';
 
-const Banner = () => {
+type Props = {
+  icon: React.ReactNode;
+  color?: string;
+  iconPosition?: 'left' | 'right';
+  children: React.ReactNode;
+};
+
+const Banner = (props: Props) => {
+  const {
+    icon,
+    iconPosition = 'left',
+    children,
+    color = colors.mainArticleBackground,
+  } = props;
   return (
     <View style={styles.container}>
       <ColoredContainer
-        backgroundColor={colors.mainArticleBackground}
-        icon={<></>}>
+        backgroundColor={color}
+        iconPosition={iconPosition}
+        icon={icon}>
         <View style={styles.textContainer}>
-          <Text style={styles.title}>Learn About {'\n'}Heartbeat.</Text>
-          <CheckNow />
+          {children}
+          {/* <Text style={styles.title}>Learn About {'\n'}Heartbeat.</Text>
+          <IconTextButton
+            title="Check Now"
+            icon={
+              <Ionicons
+                name="play-circle-outline"
+                size={30}
+                color={colors.progressIndicator.water}
+              />
+            }
+          /> */}
         </View>
       </ColoredContainer>
     </View>
@@ -29,11 +52,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     gap: 10,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.black,
   },
 });
 
