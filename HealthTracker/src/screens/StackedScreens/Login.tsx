@@ -13,7 +13,6 @@ import UserButton from '../../components/UserButton';
 import {getCurrentUser, signIn} from '../../services/auth';
 import {useDispatch} from 'react-redux';
 import {startLoading, stopLoading} from '../../stores/slices/loader';
-import {firebase} from '@react-native-firebase/auth';
 
 type LoginProps = {
   navigation: StackNavigatorPropType;
@@ -41,8 +40,6 @@ const Login = (props: LoginProps) => {
 
     return unsubscribe;
   }, [navigation]);
-
-  console.log('Current user', firebase.auth().currentUser);
 
   const handleLogin = () => {
     const login = async () => {

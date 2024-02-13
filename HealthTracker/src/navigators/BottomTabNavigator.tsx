@@ -8,6 +8,7 @@ import AntIcon from 'react-native-vector-icons/AntDesign';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors} from '../styles/common';
 import Header from '../components/Header';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
 
 // const IconRender = (props: any) => {
 //   console.log(props);
@@ -36,6 +37,8 @@ const AddIcon = () => {
     />
   );
 };
+
+export type BottomTabNavigatorPropType = NavigationProp<ParamListBase>;
 
 const BottomTabNavigator = () => {
   const Tab = createBottomTabNavigator();

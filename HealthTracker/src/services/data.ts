@@ -1,4 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
+import {ArticleDataType} from '../types/article';
 
 export const createOrUpdateData = async (
   username: string,
@@ -56,6 +57,35 @@ export const readData = async (username: string, date: Date) => {
       throw new Error('No data found');
     }
     return response.data();
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getArticle = async (articleId: number) => {
+  try {
+    const response = await firestore()
+      .collection('articles')
+      .doc(articleId.toString())
+      .get();
+    if (!response.exists) {
+      throw new Error('No article found');
+    }
+    return response.data() as ArticleDataType;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const addArticle = async (articleId: number, article: object) => {
+  try {
+    const response = await firestore()
+      .collection('articles')
+      .doc(articleId.toString())
+      .set(article);
+    return response;
   } catch (error) {
     console.log(error);
     throw error;

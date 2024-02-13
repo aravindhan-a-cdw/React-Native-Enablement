@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {colors} from '../styles/common';
 
@@ -8,6 +8,7 @@ type Props = {
   icon?: React.ReactNode;
   textColor?: string;
   iconPosition?: 'left' | 'right';
+  pressHandler?: () => void;
 };
 
 const IconTextButton = (props: Props) => {
@@ -39,10 +40,12 @@ const IconTextButton = (props: Props) => {
     },
   });
   return (
-    <View style={styles.container}>
-      {icon}
-      <Text style={styles.textStyle}>{title}</Text>
-    </View>
+    <TouchableOpacity onPress={props.pressHandler}>
+      <View style={styles.container}>
+        {icon}
+        <Text style={styles.textStyle}>{title}</Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 

@@ -8,9 +8,22 @@ import IconTextButton from '../../components/IconTextButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CycleRider from '../../assets/bicycle_rider.svg';
 import WeighScale from '../../assets/weighing-scale.svg';
+import {BottomTabNavigatorPropType} from '../../navigators/BottomTabNavigator';
 
-const Home = () => {
+type Props = {
+  navigation: BottomTabNavigatorPropType;
+};
+
+const Home = (props: Props) => {
   // This is the home screen of Bottom Tab Navigator
+
+  const {navigation} = props;
+
+  const articleClickHandler = (articleId: string) => {
+    console.log('Article Clicked');
+    navigation.navigate('stack.article', {articleId});
+  };
+
   const userName = 'Aravindhan';
   return (
     <SafeAreaView style={styles.container}>
@@ -25,6 +38,7 @@ const Home = () => {
           <Text style={styles.bannerTitle}>Learn About {'\n'}Heartbeat.</Text>
           <IconTextButton
             title="Check Now"
+            pressHandler={() => articleClickHandler('heart-beat')}
             icon={
               <Ionicons
                 name="play-circle-outline"
@@ -43,6 +57,7 @@ const Home = () => {
           </Text>
           <IconTextButton
             title="Check Now"
+            pressHandler={() => articleClickHandler('weight-loss')}
             icon={
               <Ionicons
                 name="play-circle-outline"

@@ -4,7 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Home from '../screens/StackedScreens/Home';
 import Login from '../screens/StackedScreens/Login';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
-import Header from '../components/Header';
+import Article from '../screens/StackedScreens/Article';
 
 export type StackNavigatorPropType = NavigationProp<ParamListBase>;
 
@@ -13,12 +13,8 @@ const StackNavigator = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName="stack.login"
-      screenOptions={() => {
-        return {
-          header: Header,
-        };
-      }}>
+      // key={'stack'}
+      initialRouteName="stack.login">
       <Stack.Screen
         name="stack.home"
         component={Home}
@@ -28,6 +24,11 @@ const StackNavigator = () => {
         name="stack.login"
         component={Login}
         options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="stack.article"
+        component={Article}
+        options={{title: 'Article', headerTitleAlign: 'center'}}
       />
     </Stack.Navigator>
   );
