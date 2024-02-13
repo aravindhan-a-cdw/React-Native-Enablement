@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import ColoredContainer from './ColoredContainer';
 import {colors, paddingStyles} from '../styles/common';
+import CheckNow from './CheckNow';
 
 const Banner = () => {
   return (
@@ -11,6 +12,7 @@ const Banner = () => {
         icon={<></>}>
         <View style={styles.textContainer}>
           <Text style={styles.title}>Learn About {'\n'}Heartbeat.</Text>
+          <CheckNow />
         </View>
       </ColoredContainer>
     </View>
