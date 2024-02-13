@@ -12,7 +12,7 @@ import {
 import UserButton from '../../components/UserButton';
 import {getCurrentUser, signIn} from '../../services/auth';
 import {useDispatch} from 'react-redux';
-import {startLoading, stopLoading} from '../../stores/slices/loader';
+import {startLoading, stopLoading} from '../../stores/slices/appState';
 
 type LoginProps = {
   navigation: StackNavigatorPropType;

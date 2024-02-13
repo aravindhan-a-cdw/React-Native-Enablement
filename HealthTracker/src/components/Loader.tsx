@@ -1,7 +1,7 @@
 import React from 'react';
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import {useSelector} from 'react-redux';
-import {selectIsLoading} from '../stores/slices/loader';
+import {selectIsLoading} from '../stores/slices/appState';
 
 const Loader = () => {
   const isLoading = useSelector(selectIsLoading);

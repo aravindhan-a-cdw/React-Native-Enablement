@@ -2,9 +2,10 @@ import {createSlice} from '@reduxjs/toolkit';
 import store from '..';
 
 export const loaderSlice = createSlice({
-  name: 'loader',
+  name: 'appState',
   initialState: {
     isLoading: false,
+    isDrawerOpen: false,
   },
   reducers: {
     startLoading: state => {
@@ -13,13 +14,22 @@ export const loaderSlice = createSlice({
     stopLoading: state => {
       state.isLoading = false;
     },
+    openDrawer: state => {
+      state.isDrawerOpen = true;
+    },
+    closeDrawer: state => {
+      state.isDrawerOpen = false;
+    },
   },
 });
 
-export const {startLoading, stopLoading} = loaderSlice.actions;
+export const {startLoading, stopLoading, openDrawer, closeDrawer} =
+  loaderSlice.actions;
 
 type RootState = ReturnType<typeof store.getState>;
 
 export const selectIsLoading = (state: RootState) => state.loader.isLoading;
+export const selectIsDrawerOpen = (state: RootState) =>
+  state.loader.isDrawerOpen;
 
 export default loaderSlice.reducer;
