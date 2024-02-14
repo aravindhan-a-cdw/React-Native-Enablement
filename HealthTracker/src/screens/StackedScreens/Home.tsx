@@ -1,6 +1,6 @@
 import React from 'react';
 import BottomTabNavigator from '../../navigators/BottomTabNavigator';
-import {Text} from 'react-native';
+import {View} from 'react-native';
 import {Drawer} from 'react-native-drawer-layout';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -8,8 +8,14 @@ import {
   openDrawer,
   selectIsDrawerOpen,
 } from '../../stores/slices/appState';
+import Profile from '../BottomTabScreens/Profile';
+import {StackNavigatorPropType} from '../../navigators/StackNavigator';
 
-const Home = () => {
+type Props = {
+  navigation: StackNavigatorPropType;
+};
+
+const Home = (props: Props) => {
   // This is the home screen of Stack Navigator which renders the Bottom Tab Navigator
   const dispatch = useDispatch();
   const isDrawerOpen = useSelector(selectIsDrawerOpen);
@@ -28,7 +34,11 @@ const Home = () => {
       onOpen={onDrawerOpen}
       onClose={onDrawerClose}
       renderDrawerContent={() => {
-        return <Text>Drawer content</Text>;
+        return (
+          <View>
+            <Profile viewOnly={true} navigation={props.navigation} />
+          </View>
+        );
       }}>
       <BottomTabNavigator />
     </Drawer>

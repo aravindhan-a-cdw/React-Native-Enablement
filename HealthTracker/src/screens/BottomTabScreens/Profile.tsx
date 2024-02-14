@@ -8,9 +8,12 @@ import UserInput from '../../components/UserInput';
 
 type Props = {
   navigation: StackNavigatorPropType;
+  viewOnly: boolean;
 };
 
 const Profile = (props: Props) => {
+  const {viewOnly = false} = props;
+
   const handleLogout = async () => {
     console.log('Logout');
     await signOut();
@@ -23,11 +26,23 @@ const Profile = (props: Props) => {
         style={styles.profileImage}
         source={require('../../assets/profile.jpg')}
       />
-      <UserInput value="Aravindhan" type="primary" placeholder="Name" />
-      <UserInput value="user1@cdw.com" type="primary" placeholder="Email" />
-      <UserButton type="primary" onPress={handleLogout}>
-        Save
-      </UserButton>
+      <UserInput
+        editable={!viewOnly}
+        value="Aravindhan"
+        type="primary"
+        placeholder="Name"
+      />
+      <UserInput
+        editable={!viewOnly}
+        value="user1@cdw.com"
+        type="primary"
+        placeholder="Email"
+      />
+      {!viewOnly && (
+        <UserButton type="primary" onPress={handleLogout}>
+          Save
+        </UserButton>
+      )}
       <UserButton type="secondary" onPress={handleLogout}>
         Logout
       </UserButton>
@@ -51,8 +66,8 @@ const styles = StyleSheet.create({
     marginBottom: marginStyles.small.margin,
   },
   profileImage: {
-    width: 150,
-    height: 150,
+    width: 120,
+    height: 120,
     borderRadius: 100,
     marginBottom: marginStyles.small.margin,
   },
