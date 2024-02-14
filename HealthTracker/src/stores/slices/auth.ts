@@ -1,10 +1,16 @@
 import {createSlice} from '@reduxjs/toolkit';
 import store from '../index';
 
+type User = {
+  name: string;
+  email: string;
+  uid: string;
+};
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    user: null,
+    user: null as User | null,
     isLoggingIn: false,
   },
   reducers: {

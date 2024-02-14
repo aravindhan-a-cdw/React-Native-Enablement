@@ -5,6 +5,8 @@ import {colors, marginStyles, paddingStyles} from '../../styles/common';
 import {StackNavigatorPropType} from '../../navigators/StackNavigator';
 import UserButton from '../../components/UserButton';
 import UserInput from '../../components/UserInput';
+import {useSelector} from 'react-redux';
+import {selectUser} from '../../stores/slices/auth';
 
 type Props = {
   navigation: StackNavigatorPropType;
@@ -12,6 +14,7 @@ type Props = {
 };
 
 const Profile = (props: Props) => {
+  const user = useSelector(selectUser);
   const {viewOnly = false} = props;
 
   const handleLogout = async () => {
@@ -28,13 +31,13 @@ const Profile = (props: Props) => {
       />
       <UserInput
         editable={!viewOnly}
-        value="Aravindhan"
+        value={user?.name}
         type="primary"
         placeholder="Name"
       />
       <UserInput
         editable={!viewOnly}
-        value="user1@cdw.com"
+        value={user?.email}
         type="primary"
         placeholder="Email"
       />

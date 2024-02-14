@@ -13,6 +13,8 @@ import UserButton from '../../components/UserButton';
 import {getCurrentUser, signIn} from '../../services/auth';
 import {useDispatch} from 'react-redux';
 import {startLoading, stopLoading} from '../../stores/slices/appState';
+import {login} from '../../stores/slices/auth';
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 type LoginProps = {
   navigation: StackNavigatorPropType;
@@ -27,8 +29,20 @@ const Login = (props: LoginProps) => {
 
   useEffect(() => {
     const user = getCurrentUser();
+    console.log(user);
     if (user) {
-      navigation.navigate('stack.home');
+      // navigation.dispatch(StackActions.replace('stack.home'));
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'stack.home'}],
+      });
+      dispatch(
+        login({
+          uid: user.uid,
+          email: user.email,
+          name: user.displayName || user.email?.split('@')[0],
+        }),
+      );
       // User is signed in
       // TODO: set state in redux
     }
@@ -39,17 +53,25 @@ const Login = (props: LoginProps) => {
     });
 
     return unsubscribe;
-  }, [navigation]);
+  }, [dispatch, navigation]);
 
   const handleLogin = () => {
-    const login = async () => {
+    const loginProcess = async () => {
       dispatch(startLoading());
-      await signIn(email, password);
+      return await signIn(email, password);
     };
-    login()
-      .then(() => {
+    loginProcess()
+      .then((data: FirebaseAuthTypes.UserCredential) => {
+        console.log(data);
         dispatch(stopLoading());
         navigation.navigate('stack.home');
+        dispatch(
+          login({
+            uid: data.user?.uid,
+            name: data.user?.displayName || data.user?.email?.split('@')[0],
+            email: data.user?.email,
+          }),
+        );
         // TODO: set state in redux
       })
       .catch(err => {
