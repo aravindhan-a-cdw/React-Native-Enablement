@@ -6,13 +6,26 @@ import {colors, paddingStyles} from '../styles/common';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 import {openDrawer} from '../stores/slices/appState';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigatorPropType} from '../navigators/StackNavigator';
 
 const Header = () => {
+  const navigation = useNavigation<StackNavigatorPropType>();
+
   const dispatch = useDispatch(); // This creates a warning about order of hooks called
 
   const sideDrawerOpenHandler = () => {
     console.log('Open Drawer');
     dispatch(openDrawer());
+  };
+
+  const calendarPressHandler = () => {
+    console.log('Calendar Pressed');
+    navigation.navigate('stack.calendar');
+  };
+
+  const notificationPressHandler = () => {
+    console.log('Notification Pressed');
   };
 
   return (
@@ -22,8 +35,12 @@ const Header = () => {
         <FAIcon name="bars-staggered" size={20} color="black" />
       </TouchableOpacity>
       <View style={styles.rightContainer}>
-        <IonIcon name="calendar-outline" size={24} color="black" />
-        <IonIcon name="notifications-outline" size={24} color="black" />
+        <TouchableOpacity onPress={calendarPressHandler}>
+          <IonIcon name="calendar-outline" size={24} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={notificationPressHandler}>
+          <IonIcon name="notifications-outline" size={24} color="black" />
+        </TouchableOpacity>
       </View>
     </View>
   );

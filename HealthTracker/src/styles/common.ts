@@ -1,6 +1,13 @@
 import {StyleSheet} from 'react-native';
 
 export const containerStyles = StyleSheet.create({
+  fullScreenHorizontallyCenteredWhiteContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    padding: 20,
+    width: '100%',
+  },
   fullWidthContainer: {
     flex: 1,
   },
