@@ -10,6 +10,7 @@ import {
 } from '../../stores/slices/appState';
 import Profile from '../BottomTabScreens/Profile';
 import {StackNavigatorPropType} from '../../navigators/StackNavigator';
+import {containerStyles} from '../../styles/common';
 
 type Props = {
   navigation: StackNavigatorPropType;
@@ -35,7 +36,11 @@ const Home = (props: Props) => {
       onClose={onDrawerClose}
       renderDrawerContent={() => {
         return (
-          <View>
+          <View
+            style={[
+              containerStyles.fullWidthContainer,
+              containerStyles.horizontallyCenteredContainer,
+            ]}>
             <Profile viewOnly={true} navigation={props.navigation} />
           </View>
         );

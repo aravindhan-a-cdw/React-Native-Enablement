@@ -2,6 +2,8 @@ import React, {FC, useState, useRef, useCallback} from 'react';
 import {PanResponder, Dimensions} from 'react-native';
 import Svg, {Path, Circle, G, Text} from 'react-native-svg';
 
+// reference: react-native-circle-slider
+
 interface Props {
   btnRadius?: number;
   dialRadius?: number;

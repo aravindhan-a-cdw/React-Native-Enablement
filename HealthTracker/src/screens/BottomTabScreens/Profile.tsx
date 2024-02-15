@@ -1,27 +1,84 @@
 import React from 'react';
-import {Image, SafeAreaView, StyleSheet, Text} from 'react-native';
-import {signOut} from '../../services/auth';
-import {colors, marginStyles, paddingStyles} from '../../styles/common';
+import {
+  Alert,
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {signOut, updateUserProfile} from '../../services/auth';
+import {
+  colors,
+  containerStyles,
+  marginStyles,
+  paddingStyles,
+  widthStyles,
+} from '../../styles/common';
 import {StackNavigatorPropType} from '../../navigators/StackNavigator';
 import UserButton from '../../components/UserButton';
 import UserInput from '../../components/UserInput';
-import {useSelector} from 'react-redux';
-import {selectUser} from '../../stores/slices/auth';
+import {useDispatch, useSelector} from 'react-redux';
+import {login, selectUser} from '../../stores/slices/auth';
+import {startLoading, stopLoading} from '../../stores/slices/appState';
 
 type Props = {
   navigation: StackNavigatorPropType;
-  viewOnly: boolean;
+  viewOnly?: boolean;
 };
 
 const Profile = (props: Props) => {
-  const user = useSelector(selectUser);
   const {viewOnly = false} = props;
 
+  const user = useSelector(selectUser);
+  const [name, setName] = React.useState(user?.name || '');
+  const dispatch = useDispatch();
+
+  console.log(user);
+
   const handleLogout = async () => {
-    console.log('Logout');
+    console.debug('Logout pressed');
     await signOut();
-    props.navigation.navigate('stack.login');
+    console.log(props.navigation.getState());
+
+    props.navigation.reset({
+      index: 0,
+      routes: [{name: 'stack.login'}],
+    });
   };
+
+  const handleUpdateProfile = async () => {
+    console.debug('Updating user Profile');
+    if (name.trim() === '') {
+      Alert.alert('Error', 'Name cannot be empty', [{text: 'My Bad!'}], {
+        onDismiss: () => setName(user?.name || ''),
+        cancelable: true,
+      });
+      return;
+    }
+    dispatch(startLoading());
+    await updateUserProfile(name);
+    dispatch(login({name, email: user?.email || '', uid: user?.uid || ''}));
+    dispatch(stopLoading());
+  };
+
+  if (viewOnly) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <Image
+          style={styles.profileImage}
+          source={require('../../assets/profile.jpg')}
+        />
+        <Text style={styles.text}>{user?.name}</Text>
+        <Text style={styles.text}>{user?.email}</Text>
+        <TouchableOpacity style={styles.logout} onPress={handleLogout}>
+          <Text style={styles.logoutText}>Logout</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Profile</Text>
@@ -31,24 +88,33 @@ const Profile = (props: Props) => {
       />
       <UserInput
         editable={!viewOnly}
-        value={user?.name}
+        value={name}
+        onChangeText={setName}
         type="primary"
         placeholder="Name"
       />
       <UserInput
-        editable={!viewOnly}
+        editable={false}
         value={user?.email}
         type="primary"
         placeholder="Email"
       />
-      {!viewOnly && (
-        <UserButton type="primary" onPress={handleLogout}>
+
+      <View style={[containerStyles.rowContainer, styles.buttonContainer]}>
+        <UserButton
+          style={[widthStyles.basis_50]}
+          type="primary"
+          onPress={handleUpdateProfile}>
           Save
         </UserButton>
-      )}
-      <UserButton type="secondary" onPress={handleLogout}>
-        Logout
-      </UserButton>
+
+        <UserButton
+          style={[widthStyles.basis_50]}
+          type="secondary"
+          onPress={handleLogout}>
+          Logout
+        </UserButton>
+      </View>
     </SafeAreaView>
   );
 };
@@ -56,17 +122,21 @@ const Profile = (props: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
     backgroundColor: colors.white,
     ...paddingStyles.medium,
-    paddingTop: 0,
-    alignItems: 'center',
-    gap: 20,
+    gap: 10,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     color: colors.black,
     marginBottom: marginStyles.small.margin,
+  },
+  text: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.black,
   },
   profileImage: {
     width: 120,
@@ -75,7 +145,7 @@ const styles = StyleSheet.create({
     marginBottom: marginStyles.small.margin,
   },
   logout: {
-    backgroundColor: colors.primaryColor,
+    backgroundColor: colors.secondaryColor,
     padding: 10,
     margin: 10,
     borderRadius: 10,
@@ -85,6 +155,10 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  buttonContainer: {
+    gap: 20,
+    ...paddingStyles.medium,
   },
 });
 

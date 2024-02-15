@@ -1,6 +1,9 @@
 import {StyleSheet} from 'react-native';
 
 export const containerStyles = StyleSheet.create({
+  fullWidthContainer: {
+    flex: 1,
+  },
   centeredContainer: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -74,6 +77,9 @@ export const widthStyles = StyleSheet.create({
   },
   large: {
     width: 40,
+  },
+  basis_50: {
+    flexBasis: '50%',
   },
   full: {
     width: '100%',

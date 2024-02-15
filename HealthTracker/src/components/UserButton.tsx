@@ -8,7 +8,6 @@ import {
 import {
   colors,
   paddingStyles,
-  widthStyles,
   containerStyles,
   borderStyles,
   fontStyles,
@@ -38,11 +37,11 @@ const UserButton = (props: UserButtonProps) => {
 const commonStyles = StyleSheet.create({
   common: {
     ...paddingStyles.buttonInput,
-    ...widthStyles.full,
+    // ...widthStyles.full,
     ...containerStyles.centeredContainer,
     ...paddingStyles.buttonInput,
     ...borderStyles.buttonInputBorderRadius,
-    flex: 0,
+    // flex: 1,
     height: 50,
   },
   disabled: {

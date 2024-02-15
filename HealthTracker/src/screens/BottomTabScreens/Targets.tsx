@@ -1,21 +1,40 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {colors, marginStyles} from '../../styles/common';
 import CircularSlider from '../../components/CircularSlider';
+import {useDispatch, useSelector} from 'react-redux';
+import {selectWeeklyGoals, setWeeklyGoals} from '../../stores/slices/data';
 
 const Targets = () => {
-  const [steps, setSteps] = useState<number>(10);
-  const [water, setWater] = useState<number>(100);
+  const weeklyGoals = useSelector(selectWeeklyGoals);
+  const STEP_CONST = 300;
+  const WATER_CONST = 150;
+
+  const [steps, setSteps] = useState<number>(weeklyGoals.steps / STEP_CONST);
+  const [water, setWater] = useState<number>(weeklyGoals.water / WATER_CONST);
+
+  const dispatch = useDispatch();
 
   const updateSteps = (x: number) => {
-    setSteps(x * 100);
-    return x * 100;
+    setSteps(x * STEP_CONST);
+    return x * STEP_CONST;
   };
 
   const updateWater = (x: number) => {
-    setWater(x * 10);
-    return x * 10;
+    setWater(x * WATER_CONST);
+    return x * WATER_CONST;
   };
+
+  const updateWeeklyGoals = useCallback(() => {
+    dispatch(setWeeklyGoals({steps: steps, water: water}));
+  }, [dispatch, steps, water]);
+
+  useEffect(() => {
+    return () => {
+      updateWeeklyGoals();
+      console.log('Clean up');
+    };
+  }, [updateWeeklyGoals]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -46,6 +65,11 @@ const Targets = () => {
               {'Water: ' + water.toString() + ' ml'}
             </CircularSlider>
           </View>
+          <View>
+            <Text style={styles.title}>Your Daily Goals</Text>
+            <Text style={styles.text}>Steps: {Math.round(steps / 7)}</Text>
+            <Text style={styles.text}>Water: {Math.round(water / 7)} ml</Text>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -63,6 +87,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: colors.black,
     marginBottom: marginStyles.medium.margin,
+  },
+  text: {
+    fontSize: 16,
+    color: colors.black,
+    textAlign: 'center',
+    marginBottom: marginStyles.small.margin,
   },
 });
 

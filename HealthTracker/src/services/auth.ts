@@ -31,3 +31,17 @@ export const signOut = async () => {
 export const getCurrentUser = () => {
   return auth().currentUser;
 };
+
+export const updateUserProfile = async (name: string) => {
+  try {
+    const user = getCurrentUser();
+    if (user) {
+      return user.updateProfile({
+        displayName: name,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

@@ -65,7 +65,7 @@ const BottomTabNavigator = () => {
       <Tab.Screen
         name="Targets"
         component={Targets}
-        options={{tabBarIcon: TargetIcon}}
+        options={{tabBarIcon: TargetIcon, unmountOnBlur: true}}
       />
       <Tab.Screen
         name="Profile"

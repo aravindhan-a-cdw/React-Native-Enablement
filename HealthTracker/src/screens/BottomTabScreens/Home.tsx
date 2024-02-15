@@ -9,6 +9,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import CycleRider from '../../assets/bicycle_rider.svg';
 import WeighScale from '../../assets/weighing-scale.svg';
 import {BottomTabNavigatorPropType} from '../../navigators/BottomTabNavigator';
+import {useSelector} from 'react-redux';
+import {selectUser} from '../../stores/slices/auth';
 
 type Props = {
   navigation: BottomTabNavigatorPropType;
@@ -18,13 +20,14 @@ const Home = (props: Props) => {
   // This is the home screen of Bottom Tab Navigator
 
   const {navigation} = props;
+  const user = useSelector(selectUser);
 
   const articleClickHandler = (articleId: string) => {
     console.log('Article Clicked');
     navigation.navigate('stack.article', {articleId});
   };
 
-  const userName = 'Aravindhan';
+  const userName = user?.name;
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
