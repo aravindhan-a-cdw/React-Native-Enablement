@@ -39,10 +39,28 @@ const dataSlice = createSlice({
     setDailyData: (state, action: DailyGoalAction) => {
       state.dailyData[action.payload.date] = action.payload.data;
     },
+    addSteps: (state, action: {type: string; payload: number}) => {
+      const date = new Date().toISOString().split('T')[0];
+      if (!state.dailyData[date]) {
+        // If there is no data for today, create a new entry
+        state.dailyData[date] = {
+          steps: 0,
+          water: 0,
+        };
+      }
+      console.log(date, '1 step added');
+      console.log(state.dailyData[date].steps, 'steps');
+      state.dailyData[date].steps += action.payload;
+    },
+    addWater: (state, action: {type: string; payload: number}) => {
+      const date = new Date().toISOString().split('T')[0];
+      state.dailyData[date].water += action.payload;
+    },
   },
 });
 
-export const {setWeeklyGoals, setDailyData} = dataSlice.actions;
+export const {setWeeklyGoals, setDailyData, addSteps, addWater} =
+  dataSlice.actions;
 
 export const selectWeeklyGoals = (state: RootState) => state.data.weeklyGoals;
 
