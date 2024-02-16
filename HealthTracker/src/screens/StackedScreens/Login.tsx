@@ -93,6 +93,9 @@ const Login = (props: LoginProps) => {
       </View>
       <UserInput
         type="primary"
+        autoCapitalize={'none'}
+        autoFocus={true}
+        autoComplete={'off'}
         keyboardType="email-address"
         placeholder="Email"
         value={email}
@@ -100,6 +103,8 @@ const Login = (props: LoginProps) => {
       />
       <UserInput
         type="primary"
+        autoCapitalize="none"
+        autoComplete={'off'}
         value={password}
         onChangeText={setPassword}
         placeholder="Password"
