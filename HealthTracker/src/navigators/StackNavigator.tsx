@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import Home from '../screens/StackedScreens/Home';
@@ -6,11 +6,19 @@ import Login from '../screens/StackedScreens/Login';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import Article from '../screens/StackedScreens/Article';
 import CalendarScreen from '../screens/StackedScreens/Calendar';
+import {useDispatch} from 'react-redux';
+import {loadData} from '../stores/slices/data';
 
 export type StackNavigatorPropType = NavigationProp<ParamListBase>;
 
 const StackNavigator = () => {
   const Stack = createStackNavigator();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log('Stack Navigator Loaded');
+    dispatch(loadData());
+  }, [dispatch]);
 
   return (
     <Stack.Navigator

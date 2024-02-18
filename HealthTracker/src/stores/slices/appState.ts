@@ -20,11 +20,20 @@ export const loaderSlice = createSlice({
     closeDrawer: state => {
       state.isDrawerOpen = false;
     },
+    resetAppState: state => {
+      state.isLoading = false;
+      state.isDrawerOpen = false;
+    },
   },
 });
 
-export const {startLoading, stopLoading, openDrawer, closeDrawer} =
-  loaderSlice.actions;
+export const {
+  startLoading,
+  stopLoading,
+  openDrawer,
+  closeDrawer,
+  resetAppState,
+} = loaderSlice.actions;
 
 type RootState = ReturnType<typeof store.getState>;
 

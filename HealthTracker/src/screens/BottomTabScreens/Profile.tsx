@@ -20,8 +20,12 @@ import {StackNavigatorPropType} from '../../navigators/StackNavigator';
 import UserButton from '../../components/UserButton';
 import UserInput from '../../components/UserInput';
 import {useDispatch, useSelector} from 'react-redux';
-import {login, selectUser} from '../../stores/slices/auth';
-import {startLoading, stopLoading} from '../../stores/slices/appState';
+import {login, logout, selectUser} from '../../stores/slices/auth';
+import {
+  resetAppState,
+  startLoading,
+  stopLoading,
+} from '../../stores/slices/appState';
 
 type Props = {
   navigation: StackNavigatorPropType;
@@ -40,6 +44,8 @@ const Profile = (props: Props) => {
   const handleLogout = async () => {
     console.debug('Logout pressed');
     await signOut();
+    dispatch(logout());
+    dispatch(resetAppState());
     console.log(props.navigation.getState());
 
     props.navigation.reset({

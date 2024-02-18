@@ -1,11 +1,28 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {colors, paddingStyles} from '../styles/common';
 import {View, StyleSheet} from 'react-native';
 import FAIcon from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ColoredContainer from './ColoredContainer';
+import {useDispatch, useSelector} from 'react-redux';
+import {addSteps, selectDailyData} from '../stores/slices/data';
 
 const DailyProgress = () => {
+  // This component is used to display daily progress of user
+  const date = new Date().toISOString().split('T')[0];
+
+  const dailyData = useSelector(selectDailyData(date)) || {water: 0, steps: 0};
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log('Daily Progress Rendered');
+    if (!dailyData) {
+      console.log('Daily Data is not available');
+      dispatch(addSteps(0));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <View style={dailyProgressStyles.container}>
       <ColoredContainer
@@ -17,7 +34,7 @@ const DailyProgress = () => {
           />
         }
         title="Glass Water"
-        value="50"
+        value={dailyData.water.toString()}
         backgroundColor={colors.progressIndicator.waterBackground}
         iconBackgroundColor={colors.progressIndicator.waterIconBackground}
       />
@@ -30,7 +47,7 @@ const DailyProgress = () => {
           />
         }
         title="Steps Walked"
-        value="500"
+        value={dailyData.steps.toString()}
         backgroundColor={colors.progressIndicator.stepsBackground}
         iconBackgroundColor={colors.progressIndicator.stepsIconBackground}
       />

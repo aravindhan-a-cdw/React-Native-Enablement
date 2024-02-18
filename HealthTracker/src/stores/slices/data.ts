@@ -1,5 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 import store from '..';
+import {MMKVLoader} from 'react-native-mmkv-storage';
+
+const mmkv = new MMKVLoader().initialize();
 
 type RootState = ReturnType<typeof store.getState>;
 
@@ -34,7 +37,6 @@ const dataSlice = createSlice({
   reducers: {
     setWeeklyGoals: (state, action) => {
       state.weeklyGoals = action.payload;
-      console.log(state);
     },
     setDailyData: (state, action: DailyGoalAction) => {
       state.dailyData[action.payload.date] = action.payload.data;
@@ -48,23 +50,44 @@ const dataSlice = createSlice({
           water: 0,
         };
       }
-      console.log(date, '1 step added');
-      console.log(state.dailyData[date].steps, 'steps');
+      console.debug(date, '1 step added');
+      console.debug(state.dailyData[date].steps, 'steps');
       state.dailyData[date].steps += action.payload;
     },
     addWater: (state, action: {type: string; payload: number}) => {
       const date = new Date().toISOString().split('T')[0];
       state.dailyData[date].water += action.payload;
     },
+    saveData: state => {
+      console.log('Data Saved', state);
+      mmkv.setMap('data', state);
+    },
+    loadData: state => {
+      console.log('Data Loaded');
+      const data = mmkv.getMap('data') as typeof initialState;
+      if (data) {
+        state.weeklyGoals = data.weeklyGoals;
+        state.dailyData = data.dailyData;
+      }
+    },
   },
 });
 
-export const {setWeeklyGoals, setDailyData, addSteps, addWater} =
-  dataSlice.actions;
+export const {
+  setWeeklyGoals,
+  setDailyData,
+  addSteps,
+  addWater,
+  saveData,
+  loadData,
+} = dataSlice.actions;
 
 export const selectWeeklyGoals = (state: RootState) => state.data.weeklyGoals;
 
-export const selectDailyData = (state: RootState, date: string) =>
-  state.data.dailyData[date];
+export const selectDailyData = (date: string) => (state: RootState) => {
+  console.log(state);
+  return state.data.dailyData[date];
+};
+// state.data.dailyData[date];
 
 export default dataSlice.reducer;
