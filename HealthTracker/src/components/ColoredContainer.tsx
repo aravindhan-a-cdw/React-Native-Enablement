@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {colors} from '../styles/common';
 
 type ColoredContainerProps = {
@@ -10,10 +10,11 @@ type ColoredContainerProps = {
   iconBackgroundColor?: string;
   iconPosition?: 'left' | 'right';
   children?: React.ReactNode;
+  onPress?: () => void;
 };
 
 const ColoredContainer = (props: ColoredContainerProps) => {
-  const {children, value, title, icon} = props;
+  const {children, value, title, icon, onPress} = props;
   const {iconPosition} = {...props, iconPosition: props.iconPosition || 'left'};
   const dynamicStyles = StyleSheet.create({
     progressContainer: {
@@ -21,7 +22,8 @@ const ColoredContainer = (props: ColoredContainerProps) => {
       flexDirection: iconPosition === 'left' ? 'row' : 'row-reverse',
     },
   });
-  return (
+
+  const content = (
     <View
       style={[
         progressStyles.progressContainer,
@@ -45,6 +47,11 @@ const ColoredContainer = (props: ColoredContainerProps) => {
       </View>
     </View>
   );
+
+  if (onPress) {
+    return <TouchableOpacity onPress={onPress}>{content}</TouchableOpacity>;
+  }
+  return content;
 };
 
 const progressStyles = StyleSheet.create({
