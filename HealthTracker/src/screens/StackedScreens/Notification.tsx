@@ -10,6 +10,7 @@ import {Switch} from 'react-native';
 import notifee, {
   AuthorizationStatus,
   IntervalTrigger,
+  Notification,
   TimeUnit,
   TriggerType,
 } from '@notifee/react-native';
@@ -46,21 +47,24 @@ const NotificationPage = () => {
       interval: notificationInterval ? 20 : 15,
       timeUnit: TimeUnit.MINUTES,
     };
+
+    const notification: Notification = {
+      title: 'Health Tracker',
+      body: 'Time to log your health data',
+      android: {
+        channelId: 'default',
+      },
+      ios: {
+        sound: 'default',
+      },
+    };
+    await notifee.displayNotification(notification);
     console.debug('Creating interval notification');
     await notifee.cancelTriggerNotifications();
     console.debug('Cancelled all previous notifications');
 
     const remainders = await notifee.createTriggerNotification(
-      {
-        title: 'Health Tracker',
-        body: 'Time to log your health data',
-        android: {
-          channelId: 'default',
-        },
-        ios: {
-          sound: 'default',
-        },
-      },
+      notification,
       trigger,
     );
 
@@ -77,7 +81,7 @@ const NotificationPage = () => {
   return (
     <View
       style={[
-        containerStyles.fullWidthContainer,
+        containerStyles.fullHeightContainer,
         {backgroundColor: colors.white},
       ]}>
       <Text style={[textStyles.title, styles.textCenter]}>
