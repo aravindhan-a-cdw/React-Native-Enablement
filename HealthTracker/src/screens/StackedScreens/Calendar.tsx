@@ -1,57 +1,57 @@
-import React, {useCallback, useMemo, useRef} from 'react';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {View, Dimensions, StyleSheet, Text} from 'react-native';
-import {containerStyles} from '../../styles/common';
+import {colors, containerStyles, marginStyles} from '../../styles/common';
 import {CalendarList, DateData} from 'react-native-calendars';
 import BottomSheet from '@gorhom/bottom-sheet';
-
-// const initialDate = '2024-02-01';
-// const nextWeekDate = '2024-02-08';
-// const nextWeekEndDate = '2024-02-15';
-// const nextMonthDate = '2022-08-05';
+import {useSelector} from 'react-redux';
+import {selectAllDailyData} from '../../stores/slices/data';
 
 const CalendarScreen = () => {
-  const startDate = new Date();
-  startDate.setDate(new Date().getDate() - 30);
+  const [selectedDate, setSelectedDate] = useState<string>(
+    new Date().toISOString().split('T')[0],
+  );
+  const dailyData = useSelector(selectAllDailyData);
+  const dailyDataKeys = Object.keys(dailyData);
+  dailyDataKeys
+    .sort((a, b) => {
+      return new Date(b).getTime() - new Date(a).getTime();
+    })
+    .reverse();
+
+  const startDate = dailyDataKeys[0];
 
   const pastScrollRange = Math.round(
     Math.abs(
-      (startDate.getTime() - new Date().getTime()) / 1000 / 60 / 60 / 24 / 30,
+      (new Date(startDate).getTime() - new Date().getTime()) /
+        1000 /
+        60 /
+        60 /
+        24 /
+        30,
     ),
   );
-  console.log(pastScrollRange);
   const width = Dimensions.get('window').width;
 
-  // const [selected, setSelected] = useState(initialDate);
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['98%'], []);
+
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
   }, []);
 
-  // const marked = useMemo(() => {
-  //   return {
-  //     [nextWeekDate]: {
-  //       startingDay: true,
-  //       color: 'green',
-  //       periods: [],
-  //     },
-  //     [nextWeekEndDate]: {
-  //       endingDay: true,
-  //       color: 'green',
-  //     },
-  //     [nextMonthDate]: {
-  //       selected: selected === nextMonthDate,
-  //       selectedTextColor: '#5E60CE',
-  //       marked: true,
-  //     },
-  //     [selected]: {
-  //       selected: true,
-  //       disableTouchEvent: true,
-  //       selectedColor: '#5E60CE',
-  //       selectedTextColor: 'white',
-  //     },
-  //   };
-  // }, [selected]);
+  const marked = useMemo(() => {
+    const entries = dailyDataKeys.map(date => {
+      return [
+        date,
+        {
+          startingDay: new Date(date).getDay() === 0,
+          color: 'orange',
+          endingDay: new Date(date).getDay() === 6,
+        },
+      ];
+    });
+    return Object.fromEntries(entries);
+  }, [dailyDataKeys]);
 
   const styles = StyleSheet.create({
     calendarContainer: {
@@ -61,15 +61,14 @@ const CalendarScreen = () => {
     bottomSheetStyle: {
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
-      borderColor: 'black',
+      borderColor: colors.gray,
       borderWidth: 2,
     },
   });
 
   const dayPressHandler = (day: DateData) => {
     bottomSheetRef.current?.expand();
-    console.log(day);
-    // setSelected(day.dateString);
+    setSelectedDate(day.dateString);
   };
 
   return (
@@ -82,7 +81,15 @@ const CalendarScreen = () => {
         style={styles.bottomSheetStyle}
         onChange={handleSheetChanges}>
         <View style={[containerStyles.horizontallyCenteredContainer]}>
-          <Text>Awesome 🎉</Text>
+          <Text style={bottomSheetContentStyles.title}>
+            View data for {selectedDate}
+          </Text>
+          <Text style={bottomSheetContentStyles.subtitle}>
+            Steps Walked: {dailyData[selectedDate].steps}
+          </Text>
+          <Text style={bottomSheetContentStyles.subtitle}>
+            Water Consumed: {dailyData[selectedDate].water} ml
+          </Text>
         </View>
       </BottomSheet>
       <View style={styles.calendarContainer}>
@@ -98,51 +105,28 @@ const CalendarScreen = () => {
             selectedDotColor: 'white',
           }}
           markingType="period"
-          //   markedDates={marked}
-          markedDates={{
-            '2024-02-22': {startingDay: true, color: 'lightblue'},
-            '2024-02-23': {selected: true, color: 'lightblue'},
-            '2024-02-24': {selected: true, color: 'lightblue'},
-            '2024-02-25': {
-              selected: true,
-              endingDay: true,
-              color: 'lightblue',
-              textColor: 'gray',
-            },
-          }}
+          markedDates={marked}
           pastScrollRange={pastScrollRange}
           futureScrollRange={1}
           horizontal
-          //   theme={{
-          //     backgroundColor: '#ffffff',
-          //     calendarBackground: '#ffffff',
-          //     textSectionTitleColor: '#b6c1cd',
-          //     textSectionTitleDisabledColor: '#d9e1e8',
-          //     selectedDayBackgroundColor: '#00adf5',
-          //     selectedDayTextColor: '#ffffff',
-          //     todayTextColor: '#00adf5',
-          //     dayTextColor: '#2d4150',
-          //     textDisabledColor: '#d9e1e8',
-          //     dotColor: '#00adf5',
-          //     selectedDotColor: '#ffffff',
-          //     arrowColor: 'orange',
-          //     disabledArrowColor: '#d9e1e8',
-          //     monthTextColor: 'blue',
-          //     indicatorColor: 'blue',
-          //     textDayFontFamily: 'Montserrat-Bold',
-          //     textMonthFontFamily: 'Montserrat-Bold',
-          //     textDayHeaderFontFamily: 'Montserrat-Bold',
-          //     textDayFontWeight: '300',
-          //     textMonthFontWeight: 'bold',
-          //     textDayHeaderFontWeight: '300',
-          //     textDayFontSize: 16,
-          //     textMonthFontSize: 16,
-          //     textDayHeaderFontSize: 16,
-          //   }}
         />
       </View>
     </View>
   );
 };
+
+const bottomSheetContentStyles = StyleSheet.create({
+  title: {
+    fontSize: 20,
+    color: colors.black,
+    fontWeight: 'bold',
+    marginVertical: marginStyles.large.margin,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: colors.black,
+    marginVertical: marginStyles.small.margin,
+  },
+});
 
 export default CalendarScreen;

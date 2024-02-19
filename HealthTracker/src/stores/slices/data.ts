@@ -88,6 +88,7 @@ export const selectDailyData = (date: string) => (state: RootState) => {
   console.log(state);
   return state.data.dailyData[date];
 };
-// state.data.dailyData[date];
+
+export const selectAllDailyData = (state: RootState) => state.data.dailyData;
 
 export default dataSlice.reducer;

@@ -26,6 +26,7 @@ const Header = () => {
 
   const notificationPressHandler = () => {
     console.log('Notification Pressed');
+    navigation.navigate('stack.notification');
   };
 
   return (

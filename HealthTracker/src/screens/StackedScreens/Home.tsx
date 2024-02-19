@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import BottomTabNavigator from '../../navigators/BottomTabNavigator';
 import {View} from 'react-native';
 import {Drawer} from 'react-native-drawer-layout';
@@ -11,6 +11,7 @@ import {
 import Profile from '../BottomTabScreens/Profile';
 import {StackNavigatorPropType} from '../../navigators/StackNavigator';
 import {containerStyles} from '../../styles/common';
+import {addSteps, loadData} from '../../stores/slices/data';
 
 type Props = {
   navigation: StackNavigatorPropType;
@@ -20,6 +21,11 @@ const Home = (props: Props) => {
   // This is the home screen of Stack Navigator which renders the Bottom Tab Navigator
   const dispatch = useDispatch();
   const isDrawerOpen = useSelector(selectIsDrawerOpen);
+
+  useEffect(() => {
+    dispatch(loadData());
+    dispatch(addSteps(0));
+  }, [dispatch]);
 
   const onDrawerOpen = () => {
     dispatch(openDrawer());
@@ -51,8 +57,3 @@ const Home = (props: Props) => {
 };
 
 export default Home;
-
-// export default function DrawerExample() {
-//   return (
-//   );
-// }
