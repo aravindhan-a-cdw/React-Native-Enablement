@@ -44,7 +44,7 @@ const Home = (props: Props) => {
         return (
           <View
             style={[
-              containerStyles.fullWidthContainer,
+              containerStyles.fullHeightContainer,
               containerStyles.horizontallyCenteredContainer,
             ]}>
             <Profile viewOnly={true} navigation={props.navigation} />

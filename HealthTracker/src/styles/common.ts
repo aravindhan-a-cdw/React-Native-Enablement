@@ -8,7 +8,7 @@ export const containerStyles = StyleSheet.create({
     padding: 20,
     width: '100%',
   },
-  fullWidthContainer: {
+  fullHeightContainer: {
     flex: 1,
   },
   centeredContainer: {
