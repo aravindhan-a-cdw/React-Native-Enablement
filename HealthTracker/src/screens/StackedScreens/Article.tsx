@@ -4,8 +4,15 @@ import {BottomTabNavigatorPropType} from '../../navigators/BottomTabNavigator';
 import {getArticle} from '../../services/data';
 import {ArticleDataType} from '../../types/article';
 import Video from 'react-native-video';
-import {colors, marginStyles, paddingStyles} from '../../styles/common';
+import {
+  colors,
+  containerStyles,
+  marginStyles,
+  paddingStyles,
+} from '../../styles/common';
 import IconTextButton from '../../components/IconTextButton';
+import {useDispatch} from 'react-redux';
+import {startLoading, stopLoading} from '../../stores/slices/appState';
 
 type Props = {
   navigation: BottomTabNavigatorPropType;
@@ -22,21 +29,28 @@ const Article = (props: Props) => {
   const [articleData, setArticleData] = React.useState<ArticleDataType>();
   const [paused, setPaused] = React.useState(true);
   const videoRef = React.useRef<Video>(null);
+  const dispatch = useDispatch();
 
   const playHandler = () => {
     setPaused(false);
   };
 
   useEffect(() => {
+    dispatch(startLoading());
     getArticle(articleId).then(article => {
       console.log('Article', article);
       setArticleData(article);
+      dispatch(stopLoading());
     });
-  }, [articleId]);
+  }, [articleId, dispatch]);
 
   if (!articleData) {
     return (
-      <View>
+      <View
+        style={[
+          containerStyles.fullHeightContainer,
+          containerStyles.centeredContainer,
+        ]}>
         <Text>Loading...</Text>
       </View>
     );
