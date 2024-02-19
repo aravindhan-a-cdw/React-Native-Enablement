@@ -3,12 +3,22 @@ import {StyleSheet, Text, View} from 'react-native';
 import ColoredContainer from './ColoredContainer';
 import {colors, containerStyles, paddingStyles} from '../styles/common';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigatorPropType} from '../navigators/StackNavigator';
 
 const WeeklyProgress = () => {
   const [progress, _] = React.useState(65);
+  const navigation = useNavigation<StackNavigatorPropType>();
+
+  const pressHandler = () => {
+    console.log('Weekly Progress Pressed');
+    navigation.navigate('stack.report');
+  };
+
   return (
     <View style={styles.container}>
       <ColoredContainer
+        onPress={pressHandler}
         backgroundColor={colors.progressIndicator.weeklyProgressBackground}
         iconPosition="right"
         icon={

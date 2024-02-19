@@ -7,6 +7,7 @@ import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import Article from '../screens/StackedScreens/Article';
 import CalendarScreen from '../screens/StackedScreens/Calendar';
 import NotificationPage from '../screens/StackedScreens/Notification';
+import Report from '../screens/StackedScreens/Report';
 
 export type StackNavigatorPropType = NavigationProp<ParamListBase>;
 
@@ -41,6 +42,11 @@ const StackNavigator = () => {
         name="stack.notification"
         component={NotificationPage}
         options={{title: 'Notifications', headerTitleAlign: 'center'}}
+      />
+      <Stack.Screen
+        name="stack.report"
+        component={Report}
+        options={{title: 'Report', headerTitleAlign: 'center'}}
       />
     </Stack.Navigator>
   );
