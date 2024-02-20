@@ -59,6 +59,7 @@ const dailyProgressStyles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     gap: 10,
+    flexBasis: '50%',
     padding: paddingStyles.medium.padding,
   },
 });

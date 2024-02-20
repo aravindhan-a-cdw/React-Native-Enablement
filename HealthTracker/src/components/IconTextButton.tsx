@@ -35,8 +35,10 @@ const IconTextButton = (props: Props) => {
       gap: 10,
     },
     textStyle: {
+      fontSize: 12,
       fontWeight: '400',
       color: textColor,
+      flexShrink: 1,
     },
   });
   return (

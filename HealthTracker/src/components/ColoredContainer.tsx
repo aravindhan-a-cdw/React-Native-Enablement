@@ -57,10 +57,12 @@ const ColoredContainer = (props: ColoredContainerProps) => {
 const progressStyles = StyleSheet.create({
   progressContainer: {
     alignItems: 'center',
+    flexShrink: 1,
     flexGrow: 1,
     gap: 10,
     padding: 20,
     borderRadius: 15,
+    flexBasis: '50%',
   },
   iconContainer: {
     padding: 10,
@@ -68,9 +70,10 @@ const progressStyles = StyleSheet.create({
   },
   textContainer: {
     gap: 5,
+    flex: 1,
   },
   progressTitle: {
-    fontSize: 14,
+    fontSize: 12,
     color: colors.gray,
   },
   progressValue: {

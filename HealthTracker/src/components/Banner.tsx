@@ -23,20 +23,7 @@ const Banner = (props: Props) => {
         backgroundColor={color}
         iconPosition={iconPosition}
         icon={icon}>
-        <View style={styles.textContainer}>
-          {children}
-          {/* <Text style={styles.title}>Learn About {'\n'}Heartbeat.</Text>
-          <IconTextButton
-            title="Check Now"
-            icon={
-              <Ionicons
-                name="play-circle-outline"
-                size={30}
-                color={colors.progressIndicator.water}
-              />
-            }
-          /> */}
-        </View>
+        <View style={styles.textContainer}>{children}</View>
       </ColoredContainer>
     </View>
   );

@@ -32,7 +32,7 @@ const NotificationPage = () => {
       if (permission.authorizationStatus === AuthorizationStatus.AUTHORIZED) {
         console.log('Permission Granted');
       }
-      createIntervalNotification();
+      await createIntervalNotification();
     } else {
       // Cancel all notifications as the user has disabled the notifications
       console.debug('Cancelling all notifications as the user has disabled it');
@@ -48,11 +48,16 @@ const NotificationPage = () => {
       timeUnit: TimeUnit.MINUTES,
     };
 
+    const channel = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+    });
+
     const notification: Notification = {
       title: 'Health Tracker',
       body: 'Time to log your health data',
       android: {
-        channelId: 'default',
+        channelId: channel,
       },
       ios: {
         sound: 'default',
@@ -72,7 +77,7 @@ const NotificationPage = () => {
   };
 
   const toggleInterval = async () => {
-    createIntervalNotification();
+    await createIntervalNotification();
     setNotificationInterval(previousState => {
       return !previousState;
     });
