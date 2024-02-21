@@ -50,7 +50,6 @@ const WeeklyProgress = () => {
   const width = Dimensions.get('window').width;
 
   const pressHandler = () => {
-    console.log('Weekly Progress Pressed');
     navigation.navigate('stack.report');
   };
 

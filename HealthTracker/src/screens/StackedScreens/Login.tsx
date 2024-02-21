@@ -29,7 +29,6 @@ const Login = (props: LoginProps) => {
 
   useEffect(() => {
     const user = getCurrentUser();
-    console.log(user);
     if (user) {
       // navigation.dispatch(StackActions.replace('stack.home'));
       navigation.reset({
@@ -62,7 +61,6 @@ const Login = (props: LoginProps) => {
     };
     loginProcess()
       .then((data: FirebaseAuthTypes.UserCredential) => {
-        console.log(data);
         dispatch(stopLoading());
         navigation.navigate('stack.home');
         dispatch(
@@ -75,7 +73,6 @@ const Login = (props: LoginProps) => {
         // TODO: set state in redux
       })
       .catch(err => {
-        console.log(err.code);
         switch (err.code) {
           case 'auth/invalid-credential':
             Alert.alert('Error', 'Invalid credentials');

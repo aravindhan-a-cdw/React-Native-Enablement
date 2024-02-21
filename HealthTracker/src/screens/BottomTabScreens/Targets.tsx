@@ -32,7 +32,6 @@ const Targets = () => {
   useEffect(() => {
     return () => {
       updateWeeklyGoals();
-      console.log('Clean up');
     };
   }, [updateWeeklyGoals]);
 

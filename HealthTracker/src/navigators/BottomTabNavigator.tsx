@@ -35,7 +35,6 @@ const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={() => {
-        // console.log('props', props.route);
         return {
           tabBarStyle: styles.tabBarStyle,
           tabBarShowLabel: false,

@@ -39,14 +39,11 @@ const Profile = (props: Props) => {
   const [name, setName] = React.useState(user?.name || '');
   const dispatch = useDispatch();
 
-  console.log(user);
-
   const handleLogout = async () => {
     console.debug('Logout pressed');
     await signOut();
     dispatch(logout());
     dispatch(resetAppState());
-    console.log(props.navigation.getState());
 
     props.navigation.reset({
       index: 0,

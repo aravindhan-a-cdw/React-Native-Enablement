@@ -99,7 +99,6 @@ export const {
 export const selectWeeklyGoals = (state: RootState) => state.data.weeklyGoals;
 
 export const selectDailyData = (date: string) => (state: RootState) => {
-  console.log(state);
   return state.data.dailyData[date];
 };
 

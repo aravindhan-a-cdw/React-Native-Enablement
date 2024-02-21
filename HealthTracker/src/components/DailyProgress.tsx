@@ -15,9 +15,7 @@ const DailyProgress = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('Daily Progress Rendered');
     if (!dailyData) {
-      console.log('Daily Data is not available');
       dispatch(addSteps({data: 0}));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

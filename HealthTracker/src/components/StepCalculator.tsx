@@ -26,14 +26,6 @@ const StepCalculator = () => {
     const filterFactor = 0.1;
 
     const subscription = accelerometer.subscribe(({x, y, z}) => {
-      // console.log(
-      //   'X:',
-      //   Math.abs(x) > 7 ? 0 : x,
-      //   'Y:',
-      //   Math.abs(y) > 7 ? 0 : y,
-      //   'Z:',
-      //   Math.abs(z) > 7 ? 0 : z,
-      // );
       x = Math.abs(x) > 7 ? 0 : x;
       y = Math.abs(y) > 7 ? 0 : y;
       z = Math.abs(z) > 7 ? 0 : z;
@@ -43,9 +35,6 @@ const StepCalculator = () => {
         lastMagnitude,
         filterFactor,
       );
-
-      // console.log('Magnitude:', filteredMagnitude);
-      // console.log('Difference', Math.abs(filteredMagnitude - lastMagnitude));
 
       if (
         Math.abs(filteredMagnitude - lastMagnitude) > threshold &&

@@ -31,7 +31,6 @@ const Home = (props: Props) => {
   const width = Dimensions.get('window').width;
 
   const articleClickHandler = (articleId: string) => {
-    console.log('Article Clicked');
     navigation.navigate('stack.article', {articleId});
   };
 

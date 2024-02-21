@@ -121,13 +121,11 @@ const CalendarScreen = () => {
   };
 
   const editWaterHandler = () => {
-    console.log('Edit water');
     bottomSheetRef.current?.snapToIndex(1);
     setEditMode(true);
   };
 
   const saveWaterHandler = () => {
-    console.log('Save water');
     setEditMode(false);
     bottomSheetRef.current?.snapToIndex(0);
     dispatch(

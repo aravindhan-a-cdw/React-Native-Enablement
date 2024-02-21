@@ -15,17 +15,14 @@ const Header = () => {
   const dispatch = useDispatch(); // This creates a warning about order of hooks called
 
   const sideDrawerOpenHandler = () => {
-    console.log('Open Drawer');
     dispatch(openDrawer());
   };
 
   const calendarPressHandler = () => {
-    console.log('Calendar Pressed');
     navigation.navigate('stack.calendar');
   };
 
   const notificationPressHandler = () => {
-    console.log('Notification Pressed');
     navigation.navigate('stack.notification');
   };
 

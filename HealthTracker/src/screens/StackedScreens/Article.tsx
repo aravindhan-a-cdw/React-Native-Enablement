@@ -38,7 +38,6 @@ const Article = (props: Props) => {
   useEffect(() => {
     dispatch(startLoading());
     getArticle(articleId).then(article => {
-      console.log('Article', article);
       setArticleData(article);
       dispatch(stopLoading());
     });
@@ -73,11 +72,9 @@ const Article = (props: Props) => {
               resizeMode="cover"
               onPlaybackResume={() => {
                 setPaused(false);
-                console.log('Resumed');
               }}
               onTouchStart={() => {
                 setPaused(!paused);
-                console.log('Touched');
               }}
               paused={paused}
               poster={articleData.coverImage}
