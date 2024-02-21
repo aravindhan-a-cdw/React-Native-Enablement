@@ -14,13 +14,13 @@ const QuickActionButton = () => {
         <ActionButton.Item
           buttonColor="#9b59b6"
           title="Add 250ml"
-          onPress={() => dispatch(addWater(250))}>
+          onPress={() => dispatch(addWater({data: 250}))}>
           <MaterialIcon name="cup-water" style={styles.actionButtonIcon} />
         </ActionButton.Item>
         <ActionButton.Item
           buttonColor="#3498db"
           title="Add 500ml"
-          onPress={() => dispatch(addWater(500))}>
+          onPress={() => dispatch(addWater({data: 500}))}>
           <MaterialIcon name="glass-mug" style={styles.actionButtonIcon} />
         </ActionButton.Item>
       </ActionButton>

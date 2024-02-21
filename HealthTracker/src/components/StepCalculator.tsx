@@ -53,7 +53,7 @@ const StepCalculator = () => {
       ) {
         console.log('Step detected', stepCount);
         stepCount++;
-        dispatch(addSteps(1));
+        dispatch(addSteps({data: 1}));
         if (stepCount % 10 === 0) {
           console.debug('Saving Data');
           dispatch(saveData());

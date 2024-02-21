@@ -23,6 +23,14 @@ type DailyGoalAction = {
   };
 };
 
+type AddDataAction = {
+  type: string;
+  payload: {
+    date?: string;
+    data: number;
+  };
+};
+
 const initialState = {
   dailyData: {} as DailyData,
   weeklyGoals: {
@@ -41,8 +49,9 @@ const dataSlice = createSlice({
     setDailyData: (state, action: DailyGoalAction) => {
       state.dailyData[action.payload.date] = action.payload.data;
     },
-    addSteps: (state, action: {type: string; payload: number}) => {
-      const date = new Date().toISOString().split('T')[0];
+    addSteps: (state, action: AddDataAction) => {
+      const date =
+        action.payload.date || new Date().toISOString().split('T')[0];
       if (!state.dailyData[date]) {
         // If there is no data for today, create a new entry
         state.dailyData[date] = {
@@ -50,20 +59,19 @@ const dataSlice = createSlice({
           water: 0,
         };
       }
-      console.debug(date, '1 step added');
-      console.debug(state.dailyData[date].steps, 'steps');
-      state.dailyData[date].steps += action.payload;
+      state.dailyData[date].steps += action.payload.data;
     },
-    addWater: (state, action: {type: string; payload: number}) => {
-      const date = new Date().toISOString().split('T')[0];
-      state.dailyData[date].water += action.payload;
+    addWater: (state, action: AddDataAction) => {
+      const date =
+        action.payload.date || new Date().toISOString().split('T')[0];
+      state.dailyData[date].water += action.payload.data;
     },
     saveData: state => {
-      console.log('Data Saved', state);
+      console.debug('Data Saved to localstorage', state);
       mmkv.setMap('data', state);
     },
     loadData: state => {
-      console.log('Data Loaded');
+      console.debug('Data Loaded from localstorage');
       const data = mmkv.getMap('data') as typeof initialState;
       if (data) {
         state.weeklyGoals = data.weeklyGoals;

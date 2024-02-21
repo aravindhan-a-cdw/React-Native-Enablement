@@ -18,7 +18,7 @@ const DailyProgress = () => {
     console.log('Daily Progress Rendered');
     if (!dailyData) {
       console.log('Daily Data is not available');
-      dispatch(addSteps(0));
+      dispatch(addSteps({data: 0}));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
