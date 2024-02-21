@@ -13,7 +13,7 @@ import DailyProgress from '../../components/DailyProgress';
 import Banner from '../../components/Banner';
 import IconTextButton from '../../components/IconTextButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import CycleRider from '../../assets/bicycle_rider.svg';
+import CycleRider from '../../assets/bicycle-rider.svg';
 import WeighScale from '../../assets/weighing-scale.svg';
 import {BottomTabNavigatorPropType} from '../../navigators/BottomTabNavigator';
 import {useSelector} from 'react-redux';
