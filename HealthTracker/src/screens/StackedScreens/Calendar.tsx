@@ -1,5 +1,5 @@
-import React, {useCallback, useMemo, useRef, useState} from 'react';
-import {View, Dimensions, StyleSheet, Text} from 'react-native';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {View, Dimensions, StyleSheet, Text, TextInput} from 'react-native';
 import {
   colors,
   containerStyles,
@@ -8,19 +8,43 @@ import {
 } from '../../styles/common';
 import {CalendarList, DateData} from 'react-native-calendars';
 import BottomSheet from '@gorhom/bottom-sheet';
-import {useSelector} from 'react-redux';
-import {selectAllDailyData, selectWeeklyGoals} from '../../stores/slices/data';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  selectAllDailyData,
+  selectWeeklyGoals,
+  setDailyData,
+} from '../../stores/slices/data';
 import FootImage from '../../assets/foot-sign.svg';
 import WaterImage from '../../assets/water.svg';
 import {calculateColor} from '../../utils/color';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {TouchableOpacity} from 'react-native';
+
+// const BackDrop = (props: BottomSheetBackdropProps) => {
+//   useEffect(() => {
+//     console.log('Backdrop', props.animatedIndex);
+//   });
+//   console.debug('Backdrop', props);
+
+//   return <View style={bottomSheetContentStyles.backdropStyle} />;
+// };
 
 const CalendarScreen = () => {
   const [selectedDate, setSelectedDate] = useState<string>(
     new Date().toISOString().split('T')[0],
   );
+  const [editMode, setEditMode] = useState(false);
+  const [editedWater, setEditedWater] = useState<string>('0');
+  const dispatch = useDispatch();
+
   const dailyData = useSelector(selectAllDailyData);
   const weeklyGoals = useSelector(selectWeeklyGoals);
   const selectedDayData = dailyData[selectedDate] || {water: 0, steps: 0};
+
+  useEffect(() => {
+    setEditedWater(selectedDayData.water.toString());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDate]);
 
   const dailyDataKeys = Object.keys(dailyData);
   dailyDataKeys
@@ -96,6 +120,24 @@ const CalendarScreen = () => {
     setSelectedDate(day.dateString);
   };
 
+  const editWaterHandler = () => {
+    console.log('Edit water');
+    bottomSheetRef.current?.snapToIndex(1);
+    setEditMode(true);
+  };
+
+  const saveWaterHandler = () => {
+    console.log('Save water');
+    setEditMode(false);
+    bottomSheetRef.current?.snapToIndex(0);
+    dispatch(
+      setDailyData({
+        date: selectedDate,
+        data: {water: parseInt(editedWater, 10)},
+      }),
+    );
+  };
+
   return (
     <View style={containerStyles.fullScreenHorizontallyCenteredWhiteContainer}>
       <BottomSheet
@@ -121,12 +163,38 @@ const CalendarScreen = () => {
             </View>
             <View style={bottomSheetContentStyles.dataContainer}>
               <WaterImage width={50} height={50} />
-              <Text style={bottomSheetContentStyles.subtitle}>
-                Water Consumed -{' '}
-                <Text style={bottomSheetContentStyles.numberInfo}>
-                  {selectedDayData.water} ml
+              <View style={bottomSheetContentStyles.dataTextContainer}>
+                <Text style={bottomSheetContentStyles.subtitle}>
+                  Water Consumed -{' '}
                 </Text>
-              </Text>
+                {editMode && (
+                  <>
+                    <TextInput
+                      style={bottomSheetContentStyles.editInput}
+                      value={editedWater}
+                      onChangeText={setEditedWater}
+                    />
+                    <TouchableOpacity onPress={saveWaterHandler}>
+                      <Icon name="check" size={18} color={colors.black} />
+                    </TouchableOpacity>
+                  </>
+                )}
+                {!editMode && (
+                  <>
+                    <Text style={bottomSheetContentStyles.numberInfo}>
+                      {selectedDayData.water}
+                    </Text>
+                    <TouchableOpacity onPress={editWaterHandler}>
+                      <Icon
+                        name="pencil-outline"
+                        size={18}
+                        color={colors.black}
+                      />
+                    </TouchableOpacity>
+                  </>
+                )}
+                <Text style={bottomSheetContentStyles.subtitle}>ml</Text>
+              </View>
             </View>
           </View>
         </View>
@@ -155,6 +223,11 @@ const CalendarScreen = () => {
 };
 
 const bottomSheetContentStyles = StyleSheet.create({
+  backdropStyle: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: colors.black,
+    opacity: 0.5,
+  },
   title: {
     fontSize: 20,
     color: colors.black,
@@ -177,6 +250,21 @@ const bottomSheetContentStyles = StyleSheet.create({
   },
   dataContainer: {
     alignItems: 'center',
+  },
+  dataTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
+  },
+  editInput: {
+    borderColor: colors.black,
+    borderBottomWidth: 1,
+    borderRadius: 5,
+    padding: 5,
+    // width: 100,
+    color: colors.black,
+    fontSize: 16,
+    zIndex: 1,
   },
 });
 

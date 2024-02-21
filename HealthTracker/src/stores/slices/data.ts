@@ -19,7 +19,7 @@ type DailyGoalAction = {
   type: string;
   payload: {
     date: string;
-    data: GoalData;
+    data: Partial<GoalData>;
   };
 };
 
@@ -45,9 +45,14 @@ const dataSlice = createSlice({
   reducers: {
     setWeeklyGoals: (state, action) => {
       state.weeklyGoals = action.payload;
+      mmkv.setMap('data', state);
     },
     setDailyData: (state, action: DailyGoalAction) => {
-      state.dailyData[action.payload.date] = action.payload.data;
+      state.dailyData[action.payload.date] = {
+        ...state.dailyData[action.payload.date],
+        ...action.payload.data,
+      };
+      mmkv.setMap('data', state);
     },
     addSteps: (state, action: AddDataAction) => {
       const date =
@@ -65,6 +70,7 @@ const dataSlice = createSlice({
       const date =
         action.payload.date || new Date().toISOString().split('T')[0];
       state.dailyData[date].water += action.payload.data;
+      mmkv.setMap('data', state);
     },
     saveData: state => {
       console.debug('Data Saved to localstorage', state);
