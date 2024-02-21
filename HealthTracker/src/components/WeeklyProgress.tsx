@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -10,10 +10,42 @@ import {colors, containerStyles, marginStyles} from '../styles/common';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigatorPropType} from '../navigators/StackNavigator';
+import {useSelector} from 'react-redux';
+import {selectAllDailyData, selectWeeklyGoals} from '../stores/slices/data';
 
 const WeeklyProgress = () => {
-  const [progress, _] = React.useState(65);
   const navigation = useNavigation<StackNavigatorPropType>();
+
+  const dailyData = useSelector(selectAllDailyData);
+  const weeklyGoal = useSelector(selectWeeklyGoals);
+
+  const progressPercent = useMemo(() => {
+    const possibleWeekData = Object.keys(dailyData)
+      .sort((a, b) => {
+        return new Date(a).getTime() - new Date(b).getTime();
+      })
+      .slice(0, 7)
+      .reverse();
+    const weekDay = new Date(possibleWeekData[0]).getDay();
+    const weekData = possibleWeekData.slice(0, weekDay + 1);
+
+    const weekProgress = weekData.reduce(
+      (acc, curr) => {
+        return {
+          steps: acc.steps + dailyData[curr].steps,
+          water: acc.water + dailyData[curr].water,
+        };
+      },
+      {steps: 0, water: 0},
+    );
+
+    return Math.round(
+      ((Math.min(weekProgress.steps / weeklyGoal.steps, 0.5) +
+        Math.min(weekProgress.water / weeklyGoal.water, 0.5)) /
+        2) *
+        100,
+    );
+  }, [dailyData, weeklyGoal]);
 
   const width = Dimensions.get('window').width;
 
@@ -45,7 +77,7 @@ const WeeklyProgress = () => {
         <AnimatedCircularProgress
           size={width / 3.5}
           width={12}
-          fill={progress}
+          fill={progressPercent}
           fillLineCap="round"
           rotation={30}
           duration={2000}

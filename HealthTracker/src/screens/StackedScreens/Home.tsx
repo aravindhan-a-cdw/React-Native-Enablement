@@ -24,7 +24,11 @@ const Home = (props: Props) => {
   const isDrawerOpen = useSelector(selectIsDrawerOpen);
 
   useEffect(() => {
+    // const date = new Date();
+    // date.setDate(date.getDate() - 4);
     dispatch(loadData());
+    // dispatch(addSteps({data: 20, date: date.toISOString().split('T')[0]}));
+    // dispatch(saveData()); // When data is not saved it won't reflect in calendar
     dispatch(addSteps({data: 0}));
   }, [dispatch]);
 
