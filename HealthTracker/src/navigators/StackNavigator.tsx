@@ -46,7 +46,7 @@ const StackNavigator = () => {
       <Stack.Screen
         name="stack.report"
         component={Report}
-        options={{title: 'Report', headerTitleAlign: 'center'}}
+        options={{headerBackTitleVisible: false, headerTitle: ''}}
       />
     </Stack.Navigator>
   );
