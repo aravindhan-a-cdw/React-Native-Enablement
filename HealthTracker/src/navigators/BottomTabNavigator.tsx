@@ -9,11 +9,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors} from '../styles/common';
 import Header from '../components/Header';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
-
-// const IconRender = (props: any) => {
-//   console.log(props);
-//   return <AntIcon name="home" size={30} color={props.color} />;
-// };
+import Settings from '../screens/BottomTabScreens/Settings';
 
 const HomeIcon = (props: any) => {
   return <AntIcon name="home" size={30} color={props.color} />;
@@ -27,7 +23,7 @@ const ProfileIcon = (props: any) => {
   return <AntIcon name="user" size={30} color={props.color} />;
 };
 
-const AddIcon = () => {
+const SettingsIcon = () => {
   return <AntIcon name="setting" size={30} style={styles.addIconStyle} />;
 };
 
@@ -63,7 +59,11 @@ const BottomTabNavigator = () => {
         options={{tabBarIcon: ProfileIcon}}
       />
       {/* TODO: Modify icon to have add icon and prevent pressing on it */}
-      <Tab.Screen name="Add" component={Home} options={{tabBarIcon: AddIcon}} />
+      <Tab.Screen
+        name="Settings"
+        component={Settings}
+        options={{tabBarIcon: SettingsIcon}}
+      />
     </Tab.Navigator>
   );
 };
