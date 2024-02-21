@@ -25,13 +25,10 @@ const Settings = () => {
 
   useEffect(() => {
     if (isFloatingWidgetEnabled) {
-      const event = DeviceEventEmitter.addListener(
-        'floating-bubble-press',
-        () => {
-          console.log('floating-bubble-press');
-          dispatch(addWater({data: 250}));
-        },
-      );
+      DeviceEventEmitter.addListener('floating-bubble-press', () => {
+        console.log('floating-bubble-press');
+        dispatch(addWater({data: 250}));
+      });
       const eventCount = DeviceEventEmitter.listenerCount(
         'floating-bubble-press',
       );
@@ -40,7 +37,7 @@ const Settings = () => {
     if (!isFloatingWidgetEnabled) {
       DeviceEventEmitter.removeAllListeners('floating-bubble-press');
     }
-  }, [isFloatingWidgetEnabled]);
+  }, [dispatch, isFloatingWidgetEnabled]);
 
   const toggleSwitch = async () => {
     if (!isFloatingWidgetEnabled) {
