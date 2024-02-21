@@ -1,0 +1,3 @@
+export const DEFAULT_NOTIFCATION_INTERVAL = 30;
+
+export const NOTIFICATION_INTERVALS = [30, 60, 120, 300];

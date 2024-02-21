@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {
   colors,
   containerStyles,
@@ -15,6 +15,10 @@ import notifee, {
   TriggerType,
 } from '@notifee/react-native';
 import {MMKVLoader, useMMKVStorage} from 'react-native-mmkv-storage';
+import {
+  DEFAULT_NOTIFCATION_INTERVAL,
+  NOTIFICATION_INTERVALS,
+} from '../../constants/app';
 
 const mmkv = new MMKVLoader().initialize();
 
@@ -23,7 +27,7 @@ const NotificationPage = () => {
   const [notificationInterval, setNotificationInterval] = useMMKVStorage(
     'notificationInterval',
     mmkv,
-    false,
+    DEFAULT_NOTIFCATION_INTERVAL,
   );
 
   const toggleSwitch = async () => {
@@ -32,7 +36,7 @@ const NotificationPage = () => {
       if (permission.authorizationStatus === AuthorizationStatus.AUTHORIZED) {
         console.log('Permission Granted');
       }
-      await createIntervalNotification();
+      await createIntervalNotification(notificationInterval);
     } else {
       // Cancel all notifications as the user has disabled the notifications
       console.debug('Cancelling all notifications as the user has disabled it');
@@ -41,10 +45,10 @@ const NotificationPage = () => {
     setIsEnabled(previousState => !previousState);
   };
 
-  const createIntervalNotification = async () => {
+  const createIntervalNotification = async (interval: number) => {
     const trigger: IntervalTrigger = {
       type: TriggerType.INTERVAL,
-      interval: notificationInterval ? 20 : 15,
+      interval: interval,
       timeUnit: TimeUnit.MINUTES,
     };
 
@@ -63,10 +67,14 @@ const NotificationPage = () => {
         sound: 'default',
       },
     };
-    await notifee.displayNotification(notification);
-    console.debug('Creating interval notification');
-    await notifee.cancelTriggerNotifications();
+    await notifee.cancelAllNotifications();
     console.debug('Cancelled all previous notifications');
+
+    await notifee.displayNotification({
+      ...notification,
+      body: `You will be notified every ${interval} mins from now!`,
+    });
+    console.debug('Creating interval notification');
 
     const reminderId = await notifee.createTriggerNotification(
       notification,
@@ -76,12 +84,28 @@ const NotificationPage = () => {
     console.log('Notification created', reminderId);
   };
 
-  const toggleInterval = async () => {
-    await createIntervalNotification();
-    setNotificationInterval(previousState => {
-      return !previousState;
-    });
+  const handleNotificationIntervalChange = async (interval: number) => {
+    setNotificationInterval(interval);
+    await createIntervalNotification(interval);
   };
+
+  const ButtonGroup = NOTIFICATION_INTERVALS.map((interval, index, array) => {
+    return (
+      <TouchableOpacity
+        key={index}
+        style={[
+          styles.button,
+          notificationInterval === interval && styles.selectedButton,
+          index === 0 && styles.buttonStart,
+          index === array.length - 1 && styles.buttonEnd,
+        ]}
+        onPress={() => handleNotificationIntervalChange(interval)}>
+        <Text style={[notificationInterval === interval && styles.boldText]}>
+          {interval} mins
+        </Text>
+      </TouchableOpacity>
+    );
+  });
 
   return (
     <View
@@ -103,17 +127,13 @@ const NotificationPage = () => {
             style={[
               containerStyles.horizontallyCenteredContainer,
               marginStyles.large,
+              styles.notificationIntervalsContainer,
             ]}>
             <Text style={[styles.subtitle]}>Notification Interval </Text>
-            <View style={[containerStyles.rowContainer]}>
-              <Text style={!notificationInterval ? styles.boldText : {}}>
-                Every 30 mins
-              </Text>
-              <Switch onChange={toggleInterval} value={notificationInterval} />
-              <Text style={notificationInterval ? styles.boldText : {}}>
-                Every 1 hour
-              </Text>
-            </View>
+            <View style={[containerStyles.rowContainer]}>{ButtonGroup}</View>
+            <Text style={styles.boldText}>
+              You will be notified every {notificationInterval} mins!
+            </Text>
           </View>
         )}
       </View>
@@ -131,6 +151,30 @@ const styles = StyleSheet.create({
   },
   spaceBetweenContainer: {
     justifyContent: 'space-between',
+  },
+  notificationIntervalsContainer: {
+    gap: 20,
+  },
+  button: {
+    padding: 10,
+    borderColor: colors.black,
+    // borderWidth: 1,
+    borderBottomWidth: 2,
+    borderTopWidth: 2,
+    borderRightWidth: 1,
+  },
+  buttonStart: {
+    borderLeftWidth: 2,
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+  },
+  buttonEnd: {
+    borderRightWidth: 2,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+  },
+  selectedButton: {
+    backgroundColor: colors.primaryColor,
   },
   boldText: {
     fontWeight: 'bold',
