@@ -33,7 +33,7 @@ const DailyProgress = () => {
             name="bottle-water"
           />
         }
-        title="Glass Water"
+        title="ml Water"
         value={dailyData.water.toString()}
         backgroundColor={colors.progressIndicator.waterBackground}
         iconBackgroundColor={colors.progressIndicator.waterIconBackground}
