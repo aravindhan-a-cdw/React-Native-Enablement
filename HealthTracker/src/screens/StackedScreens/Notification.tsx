@@ -68,12 +68,12 @@ const NotificationPage = () => {
     await notifee.cancelTriggerNotifications();
     console.debug('Cancelled all previous notifications');
 
-    const remainders = await notifee.createTriggerNotification(
+    const reminderId = await notifee.createTriggerNotification(
       notification,
       trigger,
     );
 
-    console.log('Notification created', remainders);
+    console.log('Notification created', reminderId);
   };
 
   const toggleInterval = async () => {
@@ -90,12 +90,12 @@ const NotificationPage = () => {
         {backgroundColor: colors.white},
       ]}>
       <Text style={[textStyles.title, styles.textCenter]}>
-        Notification Remainder
+        Notification Reminder
       </Text>
       <View style={[marginStyles.medium]}>
         <View
           style={[containerStyles.rowContainer, styles.spaceBetweenContainer]}>
-          <Text style={[styles.subtitle]}>Remainder </Text>
+          <Text style={[styles.subtitle]}>Reminder </Text>
           <Switch onChange={toggleSwitch} value={isEnabled} />
         </View>
         {isEnabled && (
