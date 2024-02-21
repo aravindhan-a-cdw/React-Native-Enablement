@@ -1,5 +1,11 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 import {colors} from '../styles/common';
 
 type ColoredContainerProps = {
@@ -12,6 +18,8 @@ type ColoredContainerProps = {
   children?: React.ReactNode;
   onPress?: () => void;
 };
+
+const width = Dimensions.get('window').width;
 
 const ColoredContainer = (props: ColoredContainerProps) => {
   const {children, value, title, icon, onPress} = props;
@@ -39,7 +47,12 @@ const ColoredContainer = (props: ColoredContainerProps) => {
       <View style={progressStyles.textContainer}>
         {children}
         {value && (
-          <Text style={progressStyles.progressValue}>{props.value}</Text>
+          <Text
+            adjustsFontSizeToFit
+            numberOfLines={1}
+            style={progressStyles.progressValue}>
+            {props.value}
+          </Text>
         )}
         {title && (
           <Text style={progressStyles.progressTitle}>{props.title}</Text>
@@ -73,11 +86,11 @@ const progressStyles = StyleSheet.create({
     flex: 1,
   },
   progressTitle: {
-    fontSize: 12,
+    fontSize: width * 0.03,
     color: colors.gray,
   },
   progressValue: {
-    fontSize: 24,
+    fontSize: width * 0.05,
     fontWeight: 'bold',
     color: colors.black,
   },

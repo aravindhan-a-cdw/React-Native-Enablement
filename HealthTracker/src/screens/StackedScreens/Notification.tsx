@@ -1,11 +1,12 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {
-  colors,
-  containerStyles,
-  marginStyles,
-  textStyles,
-} from '../../styles/common';
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {colors, containerStyles, marginStyles} from '../../styles/common';
 import {Switch} from 'react-native';
 import notifee, {
   AuthorizationStatus,
@@ -21,6 +22,7 @@ import {
 } from '../../constants/app';
 
 const mmkv = new MMKVLoader().initialize();
+const width = Dimensions.get('window').width;
 
 const NotificationPage = () => {
   const [isEnabled, setIsEnabled] = useMMKVStorage('notification', mmkv, false);
@@ -100,7 +102,11 @@ const NotificationPage = () => {
           index === array.length - 1 && styles.buttonEnd,
         ]}
         onPress={() => handleNotificationIntervalChange(interval)}>
-        <Text style={[notificationInterval === interval && styles.boldText]}>
+        <Text
+          style={[
+            styles.intervalText,
+            notificationInterval === interval && styles.boldText,
+          ]}>
           {interval} mins
         </Text>
       </TouchableOpacity>
@@ -113,7 +119,7 @@ const NotificationPage = () => {
         containerStyles.fullHeightContainer,
         {backgroundColor: colors.white},
       ]}>
-      <Text style={[textStyles.title, styles.textCenter]}>
+      <Text style={[styles.title, styles.textCenter]}>
         Notification Reminder
       </Text>
       <View style={[marginStyles.medium]}>
@@ -142,6 +148,10 @@ const NotificationPage = () => {
 };
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: width * 0.06,
+    color: colors.black,
+  },
   subtitle: {
     fontSize: 18,
     color: colors.black,
@@ -154,6 +164,10 @@ const styles = StyleSheet.create({
   },
   notificationIntervalsContainer: {
     gap: 20,
+  },
+  intervalText: {
+    fontSize: width * 0.03,
+    color: colors.black,
   },
   button: {
     padding: 10,
@@ -177,6 +191,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primaryColor,
   },
   boldText: {
+    fontSize: width * 0.03,
     fontWeight: 'bold',
     color: colors.black,
   },
