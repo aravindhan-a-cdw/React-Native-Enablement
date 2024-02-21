@@ -1,16 +1,27 @@
 import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {View, Dimensions, StyleSheet, Text} from 'react-native';
-import {colors, containerStyles, marginStyles} from '../../styles/common';
+import {
+  colors,
+  containerStyles,
+  marginStyles,
+  paddingStyles,
+} from '../../styles/common';
 import {CalendarList, DateData} from 'react-native-calendars';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {useSelector} from 'react-redux';
-import {selectAllDailyData} from '../../stores/slices/data';
+import {selectAllDailyData, selectWeeklyGoals} from '../../stores/slices/data';
+import FootImage from '../../assets/foot-sign.svg';
+import WaterImage from '../../assets/water.svg';
+import {calculateColor} from '../../utils/color';
 
 const CalendarScreen = () => {
   const [selectedDate, setSelectedDate] = useState<string>(
     new Date().toISOString().split('T')[0],
   );
   const dailyData = useSelector(selectAllDailyData);
+  const weeklyGoals = useSelector(selectWeeklyGoals);
+  const selectedDayData = dailyData[selectedDate] || {water: 0, steps: 0};
+
   const dailyDataKeys = Object.keys(dailyData);
   dailyDataKeys
     .sort((a, b) => {
@@ -33,25 +44,36 @@ const CalendarScreen = () => {
   const width = Dimensions.get('window').width;
 
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ['98%'], []);
+  const snapPoints = useMemo(() => ['54%', '98%'], []);
 
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
   }, []);
 
   const marked = useMemo(() => {
+    const averageSteps = weeklyGoals.steps / 7;
+    const averageWater = weeklyGoals.water / 7;
+
     const entries = dailyDataKeys.map(date => {
+      const data = dailyData[date];
+
+      const completionPercentage =
+        (data.steps / averageSteps + data.water / averageWater) / 2;
+
+      const color = calculateColor(completionPercentage);
+
       return [
         date,
         {
           startingDay: new Date(date).getDay() === 0,
-          color: 'orange',
+          color: color,
           endingDay: new Date(date).getDay() === 6,
         },
       ];
     });
     return Object.fromEntries(entries);
-  }, [dailyDataKeys]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dailyData, weeklyGoals]);
 
   const styles = StyleSheet.create({
     calendarContainer: {
@@ -61,13 +83,16 @@ const CalendarScreen = () => {
     bottomSheetStyle: {
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
-      borderColor: colors.gray,
-      borderWidth: 2,
+      borderColor: colors.lightGray,
+      borderWidth: 5,
+      margin: 5,
+      elevation: 5,
+      shadowColor: colors.black,
     },
   });
 
   const dayPressHandler = (day: DateData) => {
-    bottomSheetRef.current?.expand();
+    bottomSheetRef.current?.snapToIndex(0);
     setSelectedDate(day.dateString);
   };
 
@@ -84,12 +109,26 @@ const CalendarScreen = () => {
           <Text style={bottomSheetContentStyles.title}>
             View data for {selectedDate}
           </Text>
-          <Text style={bottomSheetContentStyles.subtitle}>
-            Steps Walked: {dailyData[selectedDate].steps}
-          </Text>
-          <Text style={bottomSheetContentStyles.subtitle}>
-            Water Consumed: {dailyData[selectedDate].water} ml
-          </Text>
+          <View style={bottomSheetContentStyles.infoContainer}>
+            <View style={bottomSheetContentStyles.dataContainer}>
+              <FootImage width={50} height={50} />
+              <Text style={bottomSheetContentStyles.subtitle}>
+                Steps Walked -{' '}
+                <Text style={bottomSheetContentStyles.numberInfo}>
+                  {selectedDayData.steps}
+                </Text>
+              </Text>
+            </View>
+            <View style={bottomSheetContentStyles.dataContainer}>
+              <WaterImage width={50} height={50} />
+              <Text style={bottomSheetContentStyles.subtitle}>
+                Water Consumed -{' '}
+                <Text style={bottomSheetContentStyles.numberInfo}>
+                  {selectedDayData.water} ml
+                </Text>
+              </Text>
+            </View>
+          </View>
         </View>
       </BottomSheet>
       <View style={styles.calendarContainer}>
@@ -126,6 +165,18 @@ const bottomSheetContentStyles = StyleSheet.create({
     fontSize: 16,
     color: colors.black,
     marginVertical: marginStyles.small.margin,
+  },
+  numberInfo: {fontSize: 20, color: colors.black, fontWeight: 'bold'},
+  infoContainer: {
+    justifyContent: 'space-between',
+    borderColor: colors.lightGray,
+    borderWidth: 2,
+    width: '90%',
+    borderRadius: 25,
+    ...paddingStyles.large,
+  },
+  dataContainer: {
+    alignItems: 'center',
   },
 });
 

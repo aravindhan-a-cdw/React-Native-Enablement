@@ -25,7 +25,7 @@ const Home = (props: Props) => {
 
   useEffect(() => {
     dispatch(loadData());
-    dispatch(addSteps(0));
+    dispatch(addSteps({data: 0}));
   }, [dispatch]);
 
   const onDrawerOpen = () => {
