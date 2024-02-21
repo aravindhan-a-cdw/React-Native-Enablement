@@ -12,6 +12,7 @@ import Profile from '../BottomTabScreens/Profile';
 import {StackNavigatorPropType} from '../../navigators/StackNavigator';
 import {containerStyles} from '../../styles/common';
 import {addSteps, loadData} from '../../stores/slices/data';
+import QuickActionButton from '../../components/QuickActionButton';
 
 type Props = {
   navigation: StackNavigatorPropType;
@@ -52,6 +53,7 @@ const Home = (props: Props) => {
         );
       }}>
       <BottomTabNavigator />
+      <QuickActionButton />
     </Drawer>
   );
 };

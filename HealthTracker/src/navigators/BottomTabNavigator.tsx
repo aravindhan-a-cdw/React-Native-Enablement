@@ -28,14 +28,7 @@ const ProfileIcon = (props: any) => {
 };
 
 const AddIcon = () => {
-  return (
-    <AntIcon
-      name="plus"
-      size={20}
-      color={colors.white}
-      style={styles.addIconStyle}
-    />
-  );
+  return <AntIcon name="setting" size={30} style={styles.addIconStyle} />;
 };
 
 export type BottomTabNavigatorPropType = NavigationProp<ParamListBase>;
@@ -52,9 +45,6 @@ const BottomTabNavigator = () => {
           tabBarShowLabel: false,
           headerShadowVisible: false,
           header: Header,
-          //   tabBarIcon: tabProps => {
-          //     return <IconRender name={props.route.name} {...tabProps} />;
-          //   },
         };
       }}>
       <Tab.Screen
@@ -86,7 +76,6 @@ const styles = StyleSheet.create({
 
   addIconStyle: {
     borderRadius: 20,
-    backgroundColor: colors.primaryColor,
     padding: 8,
   },
 });
