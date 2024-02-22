@@ -1,5 +1,5 @@
 import React from 'react';
-import {StatusBar, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
 import FAIcon from 'react-native-vector-icons/FontAwesome6';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import {colors, paddingStyles} from '../styles/common';
@@ -27,20 +27,22 @@ const Header = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView>
       <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
-      <TouchableOpacity onPress={sideDrawerOpenHandler}>
-        <FAIcon name="bars-staggered" size={20} color="black" />
-      </TouchableOpacity>
-      <View style={styles.rightContainer}>
-        <TouchableOpacity onPress={calendarPressHandler}>
-          <IonIcon name="calendar-outline" size={24} color="black" />
+      <View style={styles.container}>
+        <TouchableOpacity onPress={sideDrawerOpenHandler}>
+          <FAIcon name="bars-staggered" size={20} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={notificationPressHandler}>
-          <IonIcon name="notifications-outline" size={24} color="black" />
-        </TouchableOpacity>
+        <View style={styles.rightContainer}>
+          <TouchableOpacity onPress={calendarPressHandler}>
+            <IonIcon name="calendar-outline" size={24} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={notificationPressHandler}>
+            <IonIcon name="notifications-outline" size={24} color="black" />
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
