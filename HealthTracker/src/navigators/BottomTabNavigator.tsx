@@ -23,8 +23,8 @@ const ProfileIcon = (props: any) => {
   return <AntIcon name="user" size={30} color={props.color} />;
 };
 
-const SettingsIcon = () => {
-  return <AntIcon name="setting" size={30} style={styles.addIconStyle} />;
+const SettingsIcon = (props: any) => {
+  return <AntIcon name="setting" size={30} color={props.color} />;
 };
 
 export type BottomTabNavigatorPropType = NavigationProp<ParamListBase>;

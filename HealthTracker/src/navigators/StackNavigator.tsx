@@ -16,7 +16,7 @@ const StackNavigator = () => {
 
   return (
     <Stack.Navigator
-      // key={'stack'}
+      screenOptions={{headerBackTitleVisible: false}}
       initialRouteName="stack.login">
       <Stack.Screen
         name="stack.home"
@@ -36,18 +36,17 @@ const StackNavigator = () => {
       <Stack.Screen
         name="stack.calendar"
         component={CalendarScreen}
-        options={{title: 'Calendar', headerTitleAlign: 'center'}}
+        options={{
+          title: 'Calendar',
+          headerTitleAlign: 'center',
+        }}
       />
       <Stack.Screen
         name="stack.notification"
         component={NotificationPage}
         options={{title: 'Notifications', headerTitleAlign: 'center'}}
       />
-      <Stack.Screen
-        name="stack.report"
-        component={Report}
-        options={{headerBackTitleVisible: false, headerTitle: ''}}
-      />
+      <Stack.Screen name="stack.report" component={Report} />
     </Stack.Navigator>
   );
 };
