@@ -6,11 +6,10 @@ import {colors, paddingStyles} from '../styles/common';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 import {openDrawer} from '../stores/slices/appState';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigatorPropType} from '../navigators/StackNavigator';
+import {BottomTabHeaderProps} from '@react-navigation/bottom-tabs';
 
-const Header = () => {
-  const navigation = useNavigation<StackNavigatorPropType>();
+const Header = (props: BottomTabHeaderProps) => {
+  const {navigation} = props;
 
   const dispatch = useDispatch(); // This creates a warning about order of hooks called
 
