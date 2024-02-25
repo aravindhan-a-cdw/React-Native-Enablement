@@ -1,11 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {View, Dimensions, StyleSheet, Text, TextInput} from 'react-native';
-import {
-  colors,
-  containerStyles,
-  marginStyles,
-  paddingStyles,
-} from '../../styles/common';
+import {View, Dimensions, StyleSheet} from 'react-native';
+import {colors, containerStyles} from '../../styles/common';
 import {CalendarList, DateData} from 'react-native-calendars';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {useDispatch, useSelector} from 'react-redux';
@@ -14,20 +9,8 @@ import {
   selectWeeklyGoals,
   setDailyData,
 } from '../../stores/slices/data';
-import FootImage from '../../assets/foot-sign.svg';
-import WaterImage from '../../assets/water.svg';
 import {calculateColor} from '../../utils/color';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {TouchableOpacity} from 'react-native';
-
-// const BackDrop = (props: BottomSheetBackdropProps) => {
-//   useEffect(() => {
-//     console.log('Backdrop', props.animatedIndex);
-//   });
-//   console.debug('Backdrop', props);
-
-//   return <View style={bottomSheetContentStyles.backdropStyle} />;
-// };
+import SelectedDateContent from '../../components/SelectedDateContent';
 
 const CalendarScreen = () => {
   const [selectedDate, setSelectedDate] = useState<string>(
@@ -145,57 +128,14 @@ const CalendarScreen = () => {
         enablePanDownToClose={true}
         style={styles.bottomSheetStyle}
         onChange={handleSheetChanges}>
-        <View style={[containerStyles.horizontallyCenteredContainer]}>
-          <Text style={bottomSheetContentStyles.title}>
-            View data for {selectedDate}
-          </Text>
-          <View style={bottomSheetContentStyles.infoContainer}>
-            <View style={bottomSheetContentStyles.dataContainer}>
-              <FootImage width={50} height={50} />
-              <Text style={bottomSheetContentStyles.subtitle}>
-                Steps Walked -{' '}
-                <Text style={bottomSheetContentStyles.numberInfo}>
-                  {selectedDayData.steps}
-                </Text>
-              </Text>
-            </View>
-            <View style={bottomSheetContentStyles.dataContainer}>
-              <WaterImage width={50} height={50} />
-              <View style={bottomSheetContentStyles.dataTextContainer}>
-                <Text style={bottomSheetContentStyles.subtitle}>
-                  Water Consumed -{' '}
-                </Text>
-                {editMode && (
-                  <>
-                    <TextInput
-                      style={bottomSheetContentStyles.editInput}
-                      value={editedWater}
-                      onChangeText={setEditedWater}
-                    />
-                    <TouchableOpacity onPress={saveWaterHandler}>
-                      <Icon name="check" size={18} color={colors.black} />
-                    </TouchableOpacity>
-                  </>
-                )}
-                {!editMode && (
-                  <>
-                    <Text style={bottomSheetContentStyles.numberInfo}>
-                      {selectedDayData.water}
-                    </Text>
-                    <TouchableOpacity onPress={editWaterHandler}>
-                      <Icon
-                        name="pencil-outline"
-                        size={18}
-                        color={colors.black}
-                      />
-                    </TouchableOpacity>
-                  </>
-                )}
-                <Text style={bottomSheetContentStyles.subtitle}>ml</Text>
-              </View>
-            </View>
-          </View>
-        </View>
+        <SelectedDateContent
+          selectedDate={selectedDate}
+          editMode={editMode}
+          editedWater={editedWater}
+          setEditedWater={setEditedWater}
+          saveWaterHandler={saveWaterHandler}
+          editWaterHandler={editWaterHandler}
+        />
       </BottomSheet>
       <View style={styles.calendarContainer}>
         <CalendarList
@@ -219,51 +159,5 @@ const CalendarScreen = () => {
     </View>
   );
 };
-
-const bottomSheetContentStyles = StyleSheet.create({
-  backdropStyle: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: colors.black,
-    opacity: 0.5,
-  },
-  title: {
-    fontSize: 20,
-    color: colors.black,
-    fontWeight: 'bold',
-    marginVertical: marginStyles.large.margin,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: colors.black,
-    marginVertical: marginStyles.small.margin,
-  },
-  numberInfo: {fontSize: 20, color: colors.black, fontWeight: 'bold'},
-  infoContainer: {
-    justifyContent: 'space-between',
-    borderColor: colors.lightGray,
-    borderWidth: 2,
-    width: '90%',
-    borderRadius: 25,
-    ...paddingStyles.large,
-  },
-  dataContainer: {
-    alignItems: 'center',
-  },
-  dataTextContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 2,
-  },
-  editInput: {
-    borderColor: colors.black,
-    borderBottomWidth: 1,
-    borderRadius: 5,
-    padding: 5,
-    // width: 100,
-    color: colors.black,
-    fontSize: 16,
-    zIndex: 1,
-  },
-});
 
 export default CalendarScreen;

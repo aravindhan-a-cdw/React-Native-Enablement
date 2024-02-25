@@ -4,6 +4,7 @@ import {colors, marginStyles} from '../../styles/common';
 import CircularSlider from '../../components/CircularSlider';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectWeeklyGoals, setWeeklyGoals} from '../../stores/slices/data';
+import {TargetConstants} from '../../constants/pageConstants';
 
 const Targets = () => {
   const weeklyGoals = useSelector(selectWeeklyGoals);
@@ -39,7 +40,7 @@ const Targets = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
-          <Text style={styles.title}>Your Weekly Goals</Text>
+          <Text style={styles.title}>{TargetConstants.WEEKLY_GOALS}</Text>
           <View>
             <CircularSlider
               btnRadius={20}
@@ -49,7 +50,7 @@ const Targets = () => {
               dialWidth={8}
               value={steps}
               onValueChange={updateSteps}>
-              {'Steps: ' + steps.toString()}
+              {TargetConstants.STEPS + ': ' + steps.toString()}
             </CircularSlider>
           </View>
           <View>
@@ -61,13 +62,17 @@ const Targets = () => {
               dialWidth={8}
               min={50}
               onValueChange={updateWater}>
-              {'Water: ' + water.toString() + ' ml'}
+              {TargetConstants.WATER + ': ' + water.toString() + ' ml'}
             </CircularSlider>
           </View>
           <View>
-            <Text style={styles.title}>Your Daily Goals</Text>
-            <Text style={styles.text}>Steps: {Math.round(steps / 7)}</Text>
-            <Text style={styles.text}>Water: {Math.round(water / 7)} ml</Text>
+            <Text style={styles.title}>{TargetConstants.DAILY_GOALS}</Text>
+            <Text style={styles.text}>
+              {TargetConstants.STEPS}: {Math.round(steps / 7)}
+            </Text>
+            <Text style={styles.text}>
+              {TargetConstants.WATER}: {Math.round(water / 7)} ml
+            </Text>
           </View>
         </View>
       </ScrollView>

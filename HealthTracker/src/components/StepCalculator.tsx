@@ -26,13 +26,6 @@ const StepCalculator = () => {
     const threshold = 0.2;
     const filterFactor = 0.1;
 
-    // if (!accelerometer.isSensorAvailable) {
-    //   Alert.alert(
-    //     'Sensor not available',
-    //     'Accelerometer is not available on this device',
-    //   );
-    //   return;
-    // }
     const subscription = accelerometer.subscribe(
       ({x, y, z}) => {
         x = Math.abs(x) > 7 ? 0 : x;
@@ -59,7 +52,6 @@ const StepCalculator = () => {
         lastMagnitude = filteredMagnitude;
       },
       _ => {
-        // console.error('The sensor is not available', error);
         Alert.alert(
           'Sensor not available',
           'Accelerometer is not available on this device',

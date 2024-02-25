@@ -28,12 +28,6 @@ const StatusChart = (props: Props) => {
         thickness={4}
         color1={colors.progressIndicator.steps}
         color2={colors.progressIndicator.water}
-        // yAxisColor={'black'}
-        // yAxisTextStyle={{
-        //   fontSize: 12,
-        //   color: colors.black,
-        //   transform: [{rotate: '-30deg'}],
-        // }}
         hideYAxisText
         rulesType={ruleTypes.SOLID}
         rulesThickness={1}
@@ -46,9 +40,7 @@ const StatusChart = (props: Props) => {
         lineGradientDirection="vertical"
         lineGradientEndColor="yellow"
         lineGradientStartColor="green"
-        // showYAxisIndices
-        // showXAxisIndices
-        xAxisLabelTextStyle={{fontSize: 12, color: colors.black}}
+        xAxisLabelTextStyle={styles.xAxisLabel}
       />
     </View>
   );
@@ -59,8 +51,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '90%',
     paddingTop: paddingStyles.medium.padding,
-    // borderWidth: 1,
-    // borderColor: colors.black,
+  },
+  xAxisLabel: {
+    fontSize: 12,
+    color: colors.black,
   },
 });
 

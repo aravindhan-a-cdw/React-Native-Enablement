@@ -37,11 +37,9 @@ const UserButton = (props: UserButtonProps) => {
 const commonStyles = StyleSheet.create({
   common: {
     ...paddingStyles.buttonInput,
-    // ...widthStyles.full,
     ...containerStyles.centeredContainer,
     ...paddingStyles.buttonInput,
     ...borderStyles.buttonInputBorderRadius,
-    // flex: 1,
     height: 50,
   },
   disabled: {

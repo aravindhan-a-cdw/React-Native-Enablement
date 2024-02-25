@@ -6,6 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ColoredContainer from './ColoredContainer';
 import {useDispatch, useSelector} from 'react-redux';
 import {addSteps, selectDailyData} from '../stores/slices/data';
+import {DashboardConstants} from '../constants/pageConstants';
 
 const DailyProgress = () => {
   // This component is used to display daily progress of user
@@ -31,7 +32,7 @@ const DailyProgress = () => {
             name="bottle-water"
           />
         }
-        title="ml Water"
+        title={DashboardConstants.WATER_CONSUMED}
         value={dailyData.water.toString()}
         backgroundColor={colors.progressIndicator.waterBackground}
         iconBackgroundColor={colors.progressIndicator.waterIconBackground}
@@ -44,7 +45,7 @@ const DailyProgress = () => {
             name="footsteps-sharp"
           />
         }
-        title="Steps Walked"
+        title={DashboardConstants.STEPS_WALKED}
         value={dailyData.steps.toString()}
         backgroundColor={colors.progressIndicator.stepsBackground}
         iconBackgroundColor={colors.progressIndicator.stepsIconBackground}

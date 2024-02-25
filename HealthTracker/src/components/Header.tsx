@@ -13,6 +13,7 @@ const Header = (props: BottomTabHeaderProps) => {
 
   const dispatch = useDispatch(); // This creates a warning about order of hooks called
 
+  // Wrapping with useCallback gives error Error: Rendered more hooks than during the previous render.
   const sideDrawerOpenHandler = () => {
     dispatch(openDrawer());
   };

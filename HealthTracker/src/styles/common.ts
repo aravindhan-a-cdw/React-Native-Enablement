@@ -132,6 +132,7 @@ export const colors = {
     stepsBackground: '#FEEAE9',
     stepsIconBackground: '#FFD6D7',
     weeklyProgressBackground: '#7986F7',
+    weeklyProgressLightBackground: '#A8B1FF',
   },
 };
 

@@ -12,6 +12,7 @@ import {colors, containerStyles, paddingStyles} from '../../styles/common';
 import {MMKVLoader, useMMKVStorage} from 'react-native-mmkv-storage';
 import {useDispatch} from 'react-redux';
 import {addWater} from '../../stores/slices/data';
+import {SettingsConstants} from '../../constants/pageConstants';
 
 const mmkv = new MMKVLoader().initialize();
 
@@ -63,10 +64,12 @@ const Settings = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Settings</Text>
+      <Text style={styles.title}>{SettingsConstants.TITLE}</Text>
       <View
         style={[containerStyles.rowContainer, styles.spaceBetweenContainer]}>
-        <Text style={[styles.subtitle]}>Floating Widget</Text>
+        <Text style={[styles.subtitle]}>
+          {SettingsConstants.FLOATING_WIDGET}
+        </Text>
         <Switch
           onChange={toggleSwitch}
           disabled={Platform.OS !== 'android'}
@@ -92,8 +95,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexBasis: 'auto',
     width: '100%',
-    // borderColor: colors.black,
-    // borderWidth: 1,
     padding: paddingStyles.large.padding,
   },
   subtitle: {

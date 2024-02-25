@@ -19,6 +19,7 @@ import {BottomTabNavigatorPropType} from '../../navigators/BottomTabNavigator';
 import {useSelector} from 'react-redux';
 import {selectUser} from '../../stores/slices/auth';
 import QuickActionButton from '../../components/QuickActionButton';
+import {DashboardConstants} from '../../constants/pageConstants';
 
 type Props = {
   navigation: BottomTabNavigatorPropType;
@@ -52,15 +53,17 @@ const Home = (props: Props) => {
       <SafeAreaView>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.titleContainer}>
-            <Text style={styles.titleLight}>Insight Timer</Text>
-            <Text style={styles.titleDark}>Hi! {userName}</Text>
+            <Text style={styles.titleLight}>{DashboardConstants.TITLE}</Text>
+            <Text style={styles.titleDark}>
+              {DashboardConstants.WELCOME} {userName}
+            </Text>
           </View>
           <DailyProgress />
           <WeeklyProgress />
           <Banner
             icon={<CycleRider width={iconWidth} height={iconWidth * 0.9} />}>
             <Text style={[styles.bannerTitle, dynamicStyles.titleSize]}>
-              Learn About {'\n'}Heartbeat
+              {DashboardConstants.ARTICLE_1_TITLE}
             </Text>
             <IconTextButton
               title="Check Now"
@@ -79,7 +82,7 @@ const Home = (props: Props) => {
             icon={<WeighScale width={iconWidth} height={iconWidth * 0.9} />}
             iconPosition="right">
             <Text style={[styles.bannerTitle, dynamicStyles.titleSize]}>
-              Plan your diet {'\n'}for weightloss
+              {DashboardConstants.ARTICLE_2_TITLE}
             </Text>
             <IconTextButton
               title="Check Now"
@@ -104,7 +107,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white,
-    // justifyContent: 'center',
     alignItems: 'center',
   },
   titleContainer: {

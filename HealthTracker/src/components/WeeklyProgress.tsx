@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -6,12 +6,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {colors, containerStyles, marginStyles} from '../styles/common';
+import {
+  colors,
+  containerStyles,
+  marginStyles,
+  paddingStyles,
+} from '../styles/common';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigatorPropType} from '../navigators/StackNavigator';
 import {useSelector} from 'react-redux';
 import {selectAllDailyData, selectWeeklyGoals} from '../stores/slices/data';
+import {DashboardConstants} from '../constants/pageConstants';
 
 const WeeklyProgress = () => {
   const navigation = useNavigation<StackNavigatorPropType>();
@@ -20,6 +26,7 @@ const WeeklyProgress = () => {
   const weeklyGoal = useSelector(selectWeeklyGoals);
 
   const progressPercent = useMemo(() => {
+    console.log('Calculating weekly progress');
     const possibleWeekData = Object.keys(dailyData)
       .sort((a, b) => {
         return new Date(a).getTime() - new Date(b).getTime();
@@ -49,9 +56,9 @@ const WeeklyProgress = () => {
 
   const width = Dimensions.get('window').width;
 
-  const pressHandler = () => {
+  const pressHandler = useCallback(() => {
     navigation.navigate('stack.report');
-  };
+  }, [navigation]);
 
   const dynamicStyles = StyleSheet.create({
     titleSize: {
@@ -67,10 +74,10 @@ const WeeklyProgress = () => {
       <View style={styles.container}>
         <View style={styles.textContainer}>
           <Text style={[styles.title, dynamicStyles.titleSize]}>
-            Your Weekly{'\n'}Progress
+            {DashboardConstants.WEEKLY_PROGRESS_TITLE}
           </Text>
           <Text style={[styles.subtitle, dynamicStyles.subtitleSize]}>
-            Your weekly report
+            {DashboardConstants.WEEKLY_REPORT_SUBTITLE}
           </Text>
         </View>
         <AnimatedCircularProgress
@@ -81,9 +88,10 @@ const WeeklyProgress = () => {
           rotation={30}
           duration={2000}
           delay={500}
-          tintColor="#fff"
-          onAnimationComplete={() => console.log('onAnimationComplete')}
-          backgroundColor="#A8B1FF"
+          tintColor={colors.white}
+          backgroundColor={
+            colors.progressIndicator.weeklyProgressLightBackground
+          }
           children={prop => {
             return (
               <View
@@ -117,6 +125,7 @@ const styles = StyleSheet.create({
   textContainer: {
     alignItems: 'flex-start',
     gap: 10,
+    padding: paddingStyles.medium.padding,
     flexShrink: 1, // This is used to make sure that the text does not overflow
   },
   title: {

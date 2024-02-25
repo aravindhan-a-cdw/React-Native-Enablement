@@ -26,6 +26,7 @@ import {
   startLoading,
   stopLoading,
 } from '../../stores/slices/appState';
+import {ProfileConstants} from '../../constants/pageConstants';
 
 type Props = {
   navigation: StackNavigatorPropType;
@@ -77,7 +78,7 @@ const Profile = (props: Props) => {
           <Text style={styles.text}>{user?.name}</Text>
           <Text style={styles.text}>{user?.email}</Text>
           <TouchableOpacity style={styles.logout} onPress={handleLogout}>
-            <Text style={styles.logoutText}>Logout</Text>
+            <Text style={styles.logoutText}>{ProfileConstants.LOGOUT}</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -86,7 +87,7 @@ const Profile = (props: Props) => {
 
   return (
     <View style={[styles.container]}>
-      <Text style={styles.title}>Profile</Text>
+      <Text style={styles.title}>{ProfileConstants.TITLE}</Text>
       <Image
         style={styles.profileImage}
         source={require('../../assets/profile.jpg')}
@@ -96,13 +97,13 @@ const Profile = (props: Props) => {
         value={name}
         onChangeText={setName}
         type="primary"
-        placeholder="Name"
+        placeholder={ProfileConstants.PLACEHOLDERS.NAME}
       />
       <UserInput
         editable={false}
         value={user?.email}
         type="primary"
-        placeholder="Email"
+        placeholder={ProfileConstants.PLACEHOLDERS.EMAIL}
       />
 
       <View style={[containerStyles.rowContainer, styles.buttonContainer]}>
@@ -110,14 +111,14 @@ const Profile = (props: Props) => {
           style={[widthStyles.basis_50]}
           type="primary"
           onPress={handleUpdateProfile}>
-          Save
+          {ProfileConstants.SAVE}
         </UserButton>
 
         <UserButton
           style={[widthStyles.basis_50]}
           type="secondary"
           onPress={handleLogout}>
-          Logout
+          {ProfileConstants.LOGOUT}
         </UserButton>
       </View>
     </View>
