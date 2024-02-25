@@ -18,6 +18,7 @@ import WeighScale from '../../assets/weighing-scale.svg';
 import {BottomTabNavigatorPropType} from '../../navigators/BottomTabNavigator';
 import {useSelector} from 'react-redux';
 import {selectUser} from '../../stores/slices/auth';
+import QuickActionButton from '../../components/QuickActionButton';
 
 type Props = {
   navigation: BottomTabNavigatorPropType;
@@ -93,6 +94,7 @@ const Home = (props: Props) => {
             />
           </Banner>
         </ScrollView>
+        <QuickActionButton />
       </SafeAreaView>
     </View>
   );

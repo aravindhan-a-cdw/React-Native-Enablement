@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   actionButton: {
-    bottom: 40,
-    right: -15,
+    bottom: -5,
+    right: -5,
   },
 });
 
