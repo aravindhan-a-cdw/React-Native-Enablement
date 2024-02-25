@@ -83,38 +83,45 @@ const Login = (props: LoginProps) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.textContainer}>
-        <Text style={styles.mainHeader}>Yippy! You're Back!</Text>
-        <Text style={textStyles.subtitle}>We are happy to see you back</Text>
-      </View>
-      <UserInput
-        type="primary"
-        autoCapitalize={'none'}
-        autoFocus={true}
-        autoComplete={'off'}
-        keyboardType="email-address"
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <UserInput
-        type="primary"
-        autoCapitalize="none"
-        autoComplete={'off'}
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Password"
-        secureTextEntry={true}
-      />
-      <Text style={styles.forgotPassword}>Forgot Password?</Text>
-      <UserButton
-        disabled={email && password ? false : true}
-        onPress={handleLogin}
-        type="primary">
-        Log In
-      </UserButton>
-    </SafeAreaView>
+    <View
+      style={[containerStyles.fullScreenHorizontallyCenteredWhiteContainer]}>
+      <SafeAreaView>
+        <View style={styles.container}>
+          <View style={styles.textContainer}>
+            <Text style={styles.mainHeader}>Yippy! You're Back!</Text>
+            <Text style={textStyles.subtitle}>
+              We are happy to see you back
+            </Text>
+          </View>
+          <UserInput
+            type="primary"
+            autoCapitalize={'none'}
+            autoFocus={true}
+            autoComplete={'off'}
+            keyboardType="email-address"
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <UserInput
+            type="primary"
+            autoCapitalize="none"
+            autoComplete={'off'}
+            value={password}
+            onChangeText={setPassword}
+            placeholder="Password"
+            secureTextEntry={true}
+          />
+          <Text style={styles.forgotPassword}>Forgot Password?</Text>
+          <UserButton
+            disabled={email && password ? false : true}
+            onPress={handleLogin}
+            type="primary">
+            Log In
+          </UserButton>
+        </View>
+      </SafeAreaView>
+    </View>
   );
 };
 

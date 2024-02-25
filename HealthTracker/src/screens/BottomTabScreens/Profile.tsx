@@ -68,22 +68,24 @@ const Profile = (props: Props) => {
 
   if (viewOnly) {
     return (
-      <SafeAreaView style={styles.container}>
-        <Image
-          style={styles.profileImage}
-          source={require('../../assets/profile.jpg')}
-        />
-        <Text style={styles.text}>{user?.name}</Text>
-        <Text style={styles.text}>{user?.email}</Text>
-        <TouchableOpacity style={styles.logout} onPress={handleLogout}>
-          <Text style={styles.logoutText}>Logout</Text>
-        </TouchableOpacity>
+      <SafeAreaView>
+        <View style={styles.container}>
+          <Image
+            style={styles.profileImage}
+            source={require('../../assets/profile.jpg')}
+          />
+          <Text style={styles.text}>{user?.name}</Text>
+          <Text style={styles.text}>{user?.email}</Text>
+          <TouchableOpacity style={styles.logout} onPress={handleLogout}>
+            <Text style={styles.logoutText}>Logout</Text>
+          </TouchableOpacity>
+        </View>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={[styles.container]}>
       <Text style={styles.title}>Profile</Text>
       <Image
         style={styles.profileImage}
@@ -118,7 +120,7 @@ const Profile = (props: Props) => {
           Logout
         </UserButton>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
