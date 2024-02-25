@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, Switch, Text, View} from 'react-native';
+import {Platform, StyleSheet, Switch, Text, View} from 'react-native';
 import {
   showFloatingBubble,
   requestPermission,
@@ -67,7 +67,11 @@ const Settings = () => {
       <View
         style={[containerStyles.rowContainer, styles.spaceBetweenContainer]}>
         <Text style={[styles.subtitle]}>Floating Widget</Text>
-        <Switch onChange={toggleSwitch} value={isFloatingWidgetEnabled} />
+        <Switch
+          onChange={toggleSwitch}
+          disabled={Platform.OS !== 'android'}
+          value={isFloatingWidgetEnabled}
+        />
       </View>
     </View>
   );
