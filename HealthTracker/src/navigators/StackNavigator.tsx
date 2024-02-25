@@ -46,7 +46,11 @@ const StackNavigator = () => {
         component={NotificationPage}
         options={{title: 'Notifications', headerTitleAlign: 'center'}}
       />
-      <Stack.Screen name="stack.report" component={Report} />
+      <Stack.Screen
+        name="stack.report"
+        component={Report}
+        options={{headerBackTitleVisible: false, headerTitle: ''}}
+      />
     </Stack.Navigator>
   );
 };
