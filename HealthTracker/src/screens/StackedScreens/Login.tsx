@@ -15,6 +15,7 @@ import {useDispatch} from 'react-redux';
 import {startLoading, stopLoading} from '../../stores/slices/appState';
 import {login} from '../../stores/slices/auth';
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {LoginConstants} from '../../constants/pageConstants';
 
 type LoginProps = {
   navigation: StackNavigatorPropType;
@@ -88,9 +89,11 @@ const Login = (props: LoginProps) => {
       <SafeAreaView>
         <View style={styles.container}>
           <View style={styles.textContainer}>
-            <Text style={styles.mainHeader}>Yippy! You're Back!</Text>
+            <Text style={styles.mainHeader}>
+              {LoginConstants.WELCOME_TITLE}
+            </Text>
             <Text style={textStyles.subtitle}>
-              We are happy to see you back
+              {LoginConstants.WELCOME_SUBTITLE}
             </Text>
           </View>
           <UserInput
@@ -99,7 +102,7 @@ const Login = (props: LoginProps) => {
             autoFocus={true}
             autoComplete={'off'}
             keyboardType="email-address"
-            placeholder="Email"
+            placeholder={LoginConstants.EMAIL}
             value={email}
             onChangeText={setEmail}
           />
@@ -109,15 +112,17 @@ const Login = (props: LoginProps) => {
             autoComplete={'off'}
             value={password}
             onChangeText={setPassword}
-            placeholder="Password"
+            placeholder={LoginConstants.PASSWORD}
             secureTextEntry={true}
           />
-          <Text style={styles.forgotPassword}>Forgot Password?</Text>
+          <Text style={styles.forgotPassword}>
+            {LoginConstants.FORGOT_PASSWORD}
+          </Text>
           <UserButton
             disabled={email && password ? false : true}
             onPress={handleLogin}
             type="primary">
-            Log In
+            {LoginConstants.LOGIN}
           </UserButton>
         </View>
       </SafeAreaView>

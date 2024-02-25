@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {colors, containerStyles, marginStyles} from '../../styles/common';
 import StatusChart from '../../components/StatusChart';
+import {WeeklyReportConstants} from '../../constants/pageConstants';
 
 const Report = () => {
   // const stepData = [
@@ -49,15 +50,15 @@ const Report = () => {
   return (
     <View
       style={[containerStyles.fullScreenHorizontallyCenteredWhiteContainer]}>
-      <Text style={styles.title}>Weekly Report</Text>
+      <Text style={styles.title}>{WeeklyReportConstants.TITLE}</Text>
       <View style={styles.weeklyTotalContainer}>
         <View>
           <Text style={styles.number}>8,234</Text>
-          <Text style={styles.text}>Steps</Text>
+          <Text style={styles.text}>{WeeklyReportConstants.STEPS}</Text>
         </View>
         <View>
           <Text style={styles.number}>12,345 ml</Text>
-          <Text style={styles.text}>Water</Text>
+          <Text style={styles.text}>{WeeklyReportConstants.WATER}</Text>
         </View>
       </View>
       <StatusChart data1={stepData} data2={waterData} />

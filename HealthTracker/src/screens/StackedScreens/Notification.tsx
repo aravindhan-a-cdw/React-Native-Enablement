@@ -20,6 +20,7 @@ import {
   DEFAULT_NOTIFCATION_INTERVAL,
   NOTIFICATION_INTERVALS,
 } from '../../constants/app';
+import {NotificationConstants} from '../../constants/pageConstants';
 
 const mmkv = new MMKVLoader().initialize();
 const width = Dimensions.get('window').width;
@@ -120,12 +121,14 @@ const NotificationPage = () => {
         {backgroundColor: colors.white},
       ]}>
       <Text style={[styles.title, styles.textCenter]}>
-        Notification Reminder
+        {NotificationConstants.TITLE}
       </Text>
       <View style={[marginStyles.medium]}>
         <View
           style={[containerStyles.rowContainer, styles.spaceBetweenContainer]}>
-          <Text style={[styles.subtitle]}>Reminder </Text>
+          <Text style={[styles.subtitle]}>
+            {NotificationConstants.REMAINDER}
+          </Text>
           <Switch onChange={toggleSwitch} value={isEnabled} />
         </View>
         {isEnabled && (
@@ -135,10 +138,12 @@ const NotificationPage = () => {
               marginStyles.large,
               styles.notificationIntervalsContainer,
             ]}>
-            <Text style={[styles.subtitle]}>Notification Interval </Text>
+            <Text style={[styles.subtitle]}>
+              {NotificationConstants.INTERVAL}
+            </Text>
             <View style={[containerStyles.rowContainer]}>{ButtonGroup}</View>
             <Text style={styles.boldText}>
-              You will be notified every {notificationInterval} mins!
+              {NotificationConstants.NOTIFIED_TITLE(notificationInterval)}
             </Text>
           </View>
         )}

@@ -38,3 +38,25 @@ export const CalendarConstants = {
   WATER_CONSUMED: 'Water Consumed - ',
   WATER_MEASURE: 'ml',
 };
+
+export const LoginConstants = {
+  WELCOME_TITLE: "Yippy! You're Back!",
+  WELCOME_SUBTITLE: 'We are happy to see you back',
+  FORGOT_PASSWORD: 'Forgot Password?',
+  EMAIL: 'Email',
+  PASSWORD: 'Password',
+  LOGIN: 'Log In',
+};
+
+export const NotificationConstants = {
+  TITLE: 'Notification Remainder',
+  REMAINDER: 'Remainder ',
+  INTERVAL: 'Notification Interval',
+  NOTIFIED_TITLE: (mins: number) => `You will be notified every ${mins} mins!`,
+};
+
+export const WeeklyReportConstants = {
+  TITLE: 'Weekly Report',
+  STEPS: 'Steps',
+  WATER: 'Water',
+};
