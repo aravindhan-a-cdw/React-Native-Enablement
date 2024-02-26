@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {colors, paddingStyles} from '../styles/common';
 import {View, StyleSheet} from 'react-native';
 import FAIcon from 'react-native-vector-icons/FontAwesome6';
@@ -7,13 +7,20 @@ import ColoredContainer from './ColoredContainer';
 import {useDispatch, useSelector} from 'react-redux';
 import {addSteps, selectDailyData} from '../stores/slices/data';
 import {DashboardConstants} from '../constants/pageConstants';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigatorPropType} from '../navigators/StackNavigator';
 
 const DailyProgress = () => {
   // This component is used to display daily progress of user
+  const navigation = useNavigation<StackNavigatorPropType>();
   const date = new Date().toISOString().split('T')[0];
 
   const dailyData = useSelector(selectDailyData(date)) || {water: 0, steps: 0};
   const dispatch = useDispatch();
+
+  const stepsPageNavigation = useCallback(() => {
+    navigation.navigate('stack.steps');
+  }, [navigation]);
 
   useEffect(() => {
     if (!dailyData) {
@@ -45,6 +52,7 @@ const DailyProgress = () => {
             name="footsteps-sharp"
           />
         }
+        onPress={stepsPageNavigation}
         title={DashboardConstants.STEPS_WALKED}
         value={dailyData.steps.toString()}
         backgroundColor={colors.progressIndicator.stepsBackground}

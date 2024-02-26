@@ -8,6 +8,7 @@ import Article from '../screens/StackedScreens/Article';
 import CalendarScreen from '../screens/StackedScreens/Calendar';
 import NotificationPage from '../screens/StackedScreens/Notification';
 import Report from '../screens/StackedScreens/Report';
+import StepTracker from '../screens/StackedScreens/StepTracker';
 
 export type StackNavigatorPropType = NavigationProp<ParamListBase>;
 
@@ -55,6 +56,11 @@ const StackNavigator = () => {
       <Stack.Screen
         name="stack.report"
         component={Report}
+        options={{headerBackTitleVisible: false, headerTitle: ''}}
+      />
+      <Stack.Screen
+        name="stack.steps"
+        component={StepTracker}
         options={{headerBackTitleVisible: false, headerTitle: ''}}
       />
     </Stack.Navigator>

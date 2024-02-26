@@ -32,11 +32,7 @@ const ColoredContainer = (props: ColoredContainerProps) => {
   });
 
   const content = (
-    <View
-      style={[
-        progressStyles.progressContainer,
-        dynamicStyles.progressContainer,
-      ]}>
+    <>
       <View
         style={[
           progressStyles.iconContainer,
@@ -58,13 +54,30 @@ const ColoredContainer = (props: ColoredContainerProps) => {
           <Text style={progressStyles.progressTitle}>{props.title}</Text>
         )}
       </View>
-    </View>
+    </>
   );
 
   if (onPress) {
-    return <TouchableOpacity onPress={onPress}>{content}</TouchableOpacity>;
+    return (
+      <TouchableOpacity
+        style={[
+          progressStyles.progressContainer,
+          dynamicStyles.progressContainer,
+        ]}
+        onPress={onPress}>
+        {content}
+      </TouchableOpacity>
+    );
   }
-  return content;
+  return (
+    <View
+      style={[
+        progressStyles.progressContainer,
+        dynamicStyles.progressContainer,
+      ]}>
+      {content}
+    </View>
+  );
 };
 
 const progressStyles = StyleSheet.create({
