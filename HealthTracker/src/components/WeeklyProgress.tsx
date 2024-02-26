@@ -1,6 +1,7 @@
 import React, {useCallback, useMemo} from 'react';
 import {
   Dimensions,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -18,6 +19,7 @@ import {StackNavigatorPropType} from '../navigators/StackNavigator';
 import {useSelector} from 'react-redux';
 import {selectAllDailyData, selectWeeklyGoals} from '../stores/slices/data';
 import {DashboardConstants} from '../constants/pageConstants';
+import {GOAL_MULTIPLIER} from '../constants/app';
 
 const WeeklyProgress = () => {
   const navigation = useNavigation<StackNavigatorPropType>();
@@ -46,13 +48,23 @@ const WeeklyProgress = () => {
       {steps: 0, water: 0},
     );
 
+    console.log('Week progress', weekProgress, Platform.OS);
+
     return Math.round(
-      ((Math.min(weekProgress.steps / weeklyGoal.steps, 0.5) +
-        Math.min(weekProgress.water / weeklyGoal.water, 0.5)) /
+      ((Math.min(
+        weekProgress.steps / (weeklyGoal.steps * GOAL_MULTIPLIER.STEP_CONST),
+        0.5,
+      ) +
+        Math.min(
+          weekProgress.water / (weeklyGoal.water * GOAL_MULTIPLIER.WATER_CONST),
+          0.5,
+        )) /
         2) *
         100,
     );
   }, [dailyData, weeklyGoal]);
+
+  console.log('Weekly progress', progressPercent, Platform.OS);
 
   const width = Dimensions.get('window').width;
 

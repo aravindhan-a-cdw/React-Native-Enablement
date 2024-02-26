@@ -1,3 +1,8 @@
 export const DEFAULT_NOTIFCATION_INTERVAL = 30;
 
 export const NOTIFICATION_INTERVALS = [30, 60, 120, 300];
+
+export const GOAL_MULTIPLIER = {
+  STEP_CONST: 300,
+  WATER_CONST: 150,
+};

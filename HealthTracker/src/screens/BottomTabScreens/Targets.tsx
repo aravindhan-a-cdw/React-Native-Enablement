@@ -5,11 +5,12 @@ import CircularSlider from '../../components/CircularSlider';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectWeeklyGoals, setWeeklyGoals} from '../../stores/slices/data';
 import {TargetConstants} from '../../constants/pageConstants';
+import {GOAL_MULTIPLIER} from '../../constants/app';
 
 const Targets = () => {
   const weeklyGoals = useSelector(selectWeeklyGoals);
-  const STEP_CONST = 300;
-  const WATER_CONST = 150;
+  const STEP_CONST = GOAL_MULTIPLIER.STEP_CONST;
+  const WATER_CONST = GOAL_MULTIPLIER.WATER_CONST;
 
   const [steps, setSteps] = useState<number>(weeklyGoals.steps);
   const [water, setWater] = useState<number>(weeklyGoals.water);
