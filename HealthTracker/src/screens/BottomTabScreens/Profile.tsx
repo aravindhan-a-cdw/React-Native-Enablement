@@ -113,13 +113,6 @@ const Profile = (props: Props) => {
           onPress={handleUpdateProfile}>
           {ProfileConstants.SAVE}
         </UserButton>
-
-        <UserButton
-          style={[widthStyles.basis_50]}
-          type="secondary"
-          onPress={handleLogout}>
-          {ProfileConstants.LOGOUT}
-        </UserButton>
       </View>
     </View>
   );
