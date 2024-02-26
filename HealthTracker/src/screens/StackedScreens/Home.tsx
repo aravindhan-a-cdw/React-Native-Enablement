@@ -17,7 +17,13 @@ type Props = {
   navigation: StackNavigatorPropType;
 };
 
-const Home = (props: Props) => {
+/**
+ * @returns {JSX.Element} Home Screen of Stack Navigator
+ * @description This is the home screen of Stack Navigator which renders the Bottom Tab Navigator
+ * @param {Props} props - Navigation props
+ * @version 1.0.0
+ */
+const Home = (props: Props): JSX.Element => {
   // This is the home screen of Stack Navigator which renders the Bottom Tab Navigator
   const dispatch = useDispatch();
   const isDrawerOpen = useSelector(selectIsDrawerOpen);

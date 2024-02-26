@@ -1,6 +1,7 @@
 /**
  *
  * @Author: Aravindhan Asaithambi
+ * @description: This is the main file of the application. It is the entry point of the application.
  *
  */
 

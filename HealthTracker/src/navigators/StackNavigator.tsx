@@ -11,6 +11,12 @@ import Report from '../screens/StackedScreens/Report';
 
 export type StackNavigatorPropType = NavigationProp<ParamListBase>;
 
+/**
+ * @returns {JSX.Element} StackNavigator
+ * @description This is the main stack navigator of the application
+ * @param {void} No parameter
+ * @version 1.0.0
+ * */
 const StackNavigator = () => {
   const Stack = createStackNavigator();
 

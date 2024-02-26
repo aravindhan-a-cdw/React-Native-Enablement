@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useEffect} from 'react';
+import {Alert, Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {BottomTabNavigatorPropType} from '../../navigators/BottomTabNavigator';
 import {getArticle} from '../../services/data';
 import {ArticleDataType} from '../../types/article';
@@ -31,16 +31,23 @@ const Article = (props: Props) => {
   const videoRef = React.useRef<Video>(null);
   const dispatch = useDispatch();
 
-  const playHandler = () => {
+  const playHandler = useCallback(() => {
     setPaused(false);
-  };
+  }, []);
 
   useEffect(() => {
     dispatch(startLoading());
-    getArticle(articleId).then(article => {
-      setArticleData(article);
-      dispatch(stopLoading());
-    });
+    getArticle(articleId)
+      .then(article => {
+        setArticleData(article);
+        dispatch(stopLoading());
+      })
+      .catch(() => {
+        dispatch(stopLoading());
+        Alert.alert('Error', 'Failed to load article', [
+          {text: 'OK', style: 'cancel'},
+        ]);
+      });
   }, [articleId, dispatch]);
 
   if (!articleData) {
