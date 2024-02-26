@@ -34,8 +34,8 @@ type AddDataAction = {
 const initialState = {
   dailyData: {} as DailyData,
   weeklyGoals: {
-    steps: 12000,
-    water: 12000,
+    steps: 80,
+    water: 90,
   } as GoalData,
 };
 
