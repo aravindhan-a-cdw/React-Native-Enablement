@@ -1,7 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import Home from '../screens/BottomTabScreens/Home';
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import Targets from '../screens/BottomTabScreens/Targets';
 import Profile from '../screens/BottomTabScreens/Profile';
 import AntIcon from 'react-native-vector-icons/AntDesign';
@@ -70,7 +70,14 @@ const BottomTabNavigator = () => {
 const styles = StyleSheet.create({
   tabBarStyle: {
     backgroundColor: colors.bottomTapBackgroundColor,
-    height: '7%',
+    ...Platform.select({
+      ios: {
+        height: '9%',
+      },
+      android: {
+        height: '7%',
+      },
+    }),
   },
 
   addIconStyle: {
