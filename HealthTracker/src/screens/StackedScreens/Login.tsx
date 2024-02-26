@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {Alert, StyleSheet, Text, View} from 'react-native';
 import UserInput from '../../components/UserInput';
 import {StackNavigatorPropType} from '../../navigators/StackNavigator';
 import {
@@ -31,7 +31,6 @@ const Login = (props: LoginProps) => {
   useEffect(() => {
     const user = getCurrentUser();
     if (user) {
-      // navigation.dispatch(StackActions.replace('stack.home'));
       navigation.reset({
         index: 0,
         routes: [{name: 'stack.home'}],
@@ -43,8 +42,6 @@ const Login = (props: LoginProps) => {
           name: user.displayName || user.email?.split('@')[0],
         }),
       );
-      // User is signed in
-      // TODO: set state in redux
     }
 
     const unsubscribe = navigation.addListener('focus', () => {
@@ -71,7 +68,6 @@ const Login = (props: LoginProps) => {
             email: data.user?.email,
           }),
         );
-        // TODO: set state in redux
       })
       .catch(err => {
         switch (err.code) {
@@ -86,46 +82,46 @@ const Login = (props: LoginProps) => {
   return (
     <View
       style={[containerStyles.fullScreenHorizontallyCenteredWhiteContainer]}>
-      <SafeAreaView>
-        <View style={styles.container}>
-          <View style={styles.textContainer}>
-            <Text style={styles.mainHeader}>
-              {LoginConstants.WELCOME_TITLE}
-            </Text>
-            <Text style={textStyles.subtitle}>
-              {LoginConstants.WELCOME_SUBTITLE}
-            </Text>
-          </View>
-          <UserInput
-            type="primary"
-            autoCapitalize={'none'}
-            autoFocus={true}
-            autoComplete={'off'}
-            keyboardType="email-address"
-            placeholder={LoginConstants.EMAIL}
-            value={email}
-            onChangeText={setEmail}
-          />
-          <UserInput
-            type="primary"
-            autoCapitalize="none"
-            autoComplete={'off'}
-            value={password}
-            onChangeText={setPassword}
-            placeholder={LoginConstants.PASSWORD}
-            secureTextEntry={true}
-          />
-          <Text style={styles.forgotPassword}>
-            {LoginConstants.FORGOT_PASSWORD}
+      <View
+        style={[
+          containerStyles.fullScreenHorizontallyCenteredWhiteContainer,
+          styles.container,
+        ]}>
+        <View style={styles.textContainer}>
+          <Text style={styles.mainHeader}>{LoginConstants.WELCOME_TITLE}</Text>
+          <Text style={textStyles.subtitle}>
+            {LoginConstants.WELCOME_SUBTITLE}
           </Text>
-          <UserButton
-            disabled={email && password ? false : true}
-            onPress={handleLogin}
-            type="primary">
-            {LoginConstants.LOGIN}
-          </UserButton>
         </View>
-      </SafeAreaView>
+        <UserInput
+          type="primary"
+          autoCapitalize={'none'}
+          autoFocus={true}
+          autoComplete={'off'}
+          keyboardType="email-address"
+          placeholder={LoginConstants.EMAIL}
+          value={email}
+          onChangeText={setEmail}
+        />
+        <UserInput
+          type="primary"
+          autoCapitalize="none"
+          autoComplete={'off'}
+          value={password}
+          onChangeText={setPassword}
+          placeholder={LoginConstants.PASSWORD}
+          secureTextEntry={true}
+        />
+        <Text style={styles.forgotPassword}>
+          {LoginConstants.FORGOT_PASSWORD}
+        </Text>
+        <UserButton
+          disabled={email && password ? false : true}
+          onPress={handleLogin}
+          type="primary">
+          {LoginConstants.LOGIN}
+        </UserButton>
+      </View>
     </View>
   );
 };
@@ -135,8 +131,6 @@ const styles = StyleSheet.create({
     ...textStyles.title,
   },
   container: {
-    ...containerStyles.horizontallyCenteredContainer,
-    ...paddingStyles.medium,
     flex: 1,
     paddingTop: '20%',
     backgroundColor: colors.white,

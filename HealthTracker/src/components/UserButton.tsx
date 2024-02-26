@@ -51,6 +51,7 @@ const buttonTypeStyles = StyleSheet.create({
   primary: {
     backgroundColor: colors.primaryColor,
     color: colors.white,
+    width: '100%',
   },
   secondary: {
     backgroundColor: colors.secondaryColor,
