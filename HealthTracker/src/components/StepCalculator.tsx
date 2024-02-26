@@ -12,6 +12,12 @@ import {Alert} from 'react-native';
 
 setUpdateIntervalForType(SensorTypes.accelerometer, 400); // in milliseconds
 
+/**
+ * @returns {JSX.Element} No UI is rendered, only for calculation
+ * @description This is the component to calculate the steps
+ * @param {void} No parameter
+ * @version 1.0.0
+ * */
 const StepCalculator = () => {
   const isLoggedIn = useSelector(selectIsLoggingIn);
   const dispatch = useDispatch();
@@ -26,8 +32,8 @@ const StepCalculator = () => {
     const threshold = 0.2;
     const filterFactor = 0.1;
 
-    const subscription = accelerometer.subscribe(
-      ({x, y, z}) => {
+    const subscription = accelerometer.subscribe({
+      next: ({x, y, z}) => {
         x = Math.abs(x) > 7 ? 0 : x;
         y = Math.abs(y) > 7 ? 0 : y;
         z = Math.abs(z) > 7 ? 0 : z;
@@ -51,13 +57,14 @@ const StepCalculator = () => {
         }
         lastMagnitude = filteredMagnitude;
       },
-      _ => {
+      error: _ => {
         Alert.alert(
           'Sensor not available',
           'Accelerometer is not available on this device',
         );
       },
-    );
+      complete: () => console.log('Completed accelerometer subscription'),
+    });
     return () => {
       subscription.unsubscribe();
     };
