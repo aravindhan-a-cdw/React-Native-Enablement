@@ -49,8 +49,8 @@ export const LoginConstants = {
 };
 
 export const NotificationConstants = {
-  TITLE: 'Notification Remainder',
-  REMAINDER: 'Remainder ',
+  TITLE: 'Notification Reminder',
+  REMINDER: 'Reminder ',
   INTERVAL: 'Notification Interval',
   NOTIFIED_TITLE: (mins: number) => `You will be notified every ${mins} mins!`,
 };

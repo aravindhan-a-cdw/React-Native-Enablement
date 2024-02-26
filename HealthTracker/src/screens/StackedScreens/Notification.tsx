@@ -127,7 +127,7 @@ const NotificationPage = () => {
         <View
           style={[containerStyles.rowContainer, styles.spaceBetweenContainer]}>
           <Text style={[styles.subtitle]}>
-            {NotificationConstants.REMAINDER}
+            {NotificationConstants.REMINDER}
           </Text>
           <Switch onChange={toggleSwitch} value={isEnabled} />
         </View>
