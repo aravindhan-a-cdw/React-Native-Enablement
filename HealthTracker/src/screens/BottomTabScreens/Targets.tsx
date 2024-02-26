@@ -11,18 +11,21 @@ const Targets = () => {
   const STEP_CONST = 300;
   const WATER_CONST = 150;
 
-  const [steps, setSteps] = useState<number>(weeklyGoals.steps / STEP_CONST);
-  const [water, setWater] = useState<number>(weeklyGoals.water / WATER_CONST);
+  const [steps, setSteps] = useState<number>(weeklyGoals.steps);
+  const [water, setWater] = useState<number>(weeklyGoals.water);
+
+  const computedSteps = steps * STEP_CONST;
+  const computedWater = water * WATER_CONST;
 
   const dispatch = useDispatch();
 
   const updateSteps = (x: number) => {
-    setSteps(x * STEP_CONST);
+    setSteps(x);
     return x * STEP_CONST;
   };
 
   const updateWater = (x: number) => {
-    setWater(x * WATER_CONST);
+    setWater(x);
     return x * WATER_CONST;
   };
 
@@ -50,7 +53,7 @@ const Targets = () => {
               dialWidth={8}
               value={steps}
               onValueChange={updateSteps}>
-              {TargetConstants.STEPS + ': ' + steps.toString()}
+              {TargetConstants.STEPS + ': ' + computedSteps.toString()}
             </CircularSlider>
           </View>
           <View>
@@ -62,16 +65,16 @@ const Targets = () => {
               dialWidth={8}
               min={50}
               onValueChange={updateWater}>
-              {TargetConstants.WATER + ': ' + water.toString() + ' ml'}
+              {TargetConstants.WATER + ': ' + computedWater.toString() + ' ml'}
             </CircularSlider>
           </View>
           <View>
             <Text style={styles.title}>{TargetConstants.DAILY_GOALS}</Text>
             <Text style={styles.text}>
-              {TargetConstants.STEPS}: {Math.round(steps / 7)}
+              {TargetConstants.STEPS}: {Math.round(computedSteps / 7)}
             </Text>
             <Text style={styles.text}>
-              {TargetConstants.WATER}: {Math.round(water / 7)} ml
+              {TargetConstants.WATER}: {Math.round(computedWater / 7)} ml
             </Text>
           </View>
         </View>
