@@ -7,7 +7,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {selectIsLoggingIn} from '../stores/slices/auth';
 import {addSteps, saveData} from '../stores/slices/data';
-import {lowpassFilter} from '../utils/filters';
+import {lowpassFilter} from '../utils/calculations';
 import {Alert} from 'react-native';
 
 setUpdateIntervalForType(SensorTypes.accelerometer, 400); // in milliseconds

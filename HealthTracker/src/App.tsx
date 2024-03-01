@@ -14,6 +14,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import StackNavigator from './navigators/StackNavigator';
 import Loader from './components/Loader';
 import StepCalculator from './components/StepCalculator';
+import {enableLatestRenderer} from 'react-native-maps';
+
+enableLatestRenderer();
 
 const App: React.FC = () => {
   return (
